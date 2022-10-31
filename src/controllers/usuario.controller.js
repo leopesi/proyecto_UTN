@@ -11,32 +11,32 @@ const User = require('../models/model')
 //Credenciais
 const SECRET = process.env.SECRET
 
-//Register Use
+//Register User
 controller.registerPost = (async (req, res) => {
     console.log(req.body)
     const {nombre, apellido, email, password, confirmpassword} = req.body
 
     //validation
     if (!nombre) {
-        return res.status(422).json({message: 'O nome é obrigatório!'})
+        return res.status(422).json({message: 'Se requiere el nombre!'})
     }
     if (!apellido) {
-        return res.status(422).json({message: 'O nome é obrigatório!'})
+        return res.status(422).json({message: 'Se requiere el apellido!'})
     }
     if (!email) {
-        return res.status(422).json({message: 'O email é obrigatório!'})
+        return res.status(422).json({message: 'Se requiere el email!'})
     }
     if (!password) {
-        return res.status(422).json({message: 'A senha é obrigatória!'})
+        return res.status(422).json({message: 'La contraseña es obligatoria!'})
     }
     if (password !== confirmpassword) {
-        return res.status(422).json({message: 'A senha não confere com a anterior'})
+        return res.status(422).json({message: 'La confirmación de la contraseña es obligatoria'})
     }
 
     // Check if user exists
     const userExists = await User.findOne({ where:{ email: email}})
     if (userExists) {
-        return res.status(422).json({msg: 'Por favor insira outro email'})
+        return res.status(422).json({msg: 'El usuario ya existe, registre otro email'})
     }
     // Create Password
     const salt = await bcrypt.genSalt(10)
@@ -50,17 +50,57 @@ controller.registerPost = (async (req, res) => {
     })
     try {
         await user.save()
-        res.status(201).json({ msg: "Usuário criado com sucesso!"})
+        res.status(201).json({ msg: "Usuario creado con éxito!"})
     }catch (error) {
         console.log(error)
         res
         .status(500)
         .json({
-            msg: "Erro no Servidor"
+            msg: "Error del Servidor"
         })
     }
 
 });
+
+//Login
+controller.loginPost = (async (req, res) => {
+    console.log(req.body)
+    const {email, password} = req.body
+
+    // Validations
+    if (!email) {
+        return res.status(422).json({message: 'O email é obrigatório!'})
+    }
+    if (!password) {
+        return res.status(422).json({message: 'A senha é obrigatória!'})
+    }
+
+    // Check if user exists
+    const user = await User.findOne({ where:{ email: email}})
+    if (!user) {
+        return res.status(404).json({msg: 'Usuário não encontrado'})
+    }
+
+    // Check if password match
+    const checkPassword = await bcrypt.compare(password, user.password)
+    if (!checkPassword) {
+        return res.status(404).json({msg: 'Senha Inválida'})
+    }
+
+    try {
+        const token = jwt.sign(
+            {
+                id: user._id,
+            },
+            SECRET,
+        )
+        res.status(200).json({msg:'Autenticação realizada com sucesso', token})
+    } catch (err) {
+        console.log(error)
+        res.status(500).json({msg:'erro'})
+    }
+ 
+})
 
 //funcion
 controller.getList = (async (req, res) => {

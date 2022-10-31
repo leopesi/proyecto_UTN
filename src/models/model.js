@@ -33,8 +33,6 @@ const User = db.define('users3', {
 
 
 //Verifica e faz alteração na tabela caso exista alguma
-User.sync({alter: false})
-
-
+//User.sync({alter: false})
 
 module.exports = User;

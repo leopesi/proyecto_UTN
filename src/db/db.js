@@ -12,9 +12,9 @@ const sequelize = new Sequelize('teste', dbUser, dbPassword, {
 
 sequelize.authenticate()
 .then(function(){
-    console.log('Conexão com o banco de dados bem sucedida!');
+    console.log('¡Conexión con db exitosa!');
 }).catch(function(){
-    console.log('Erro de conexão');
+    console.log('error de conexión!');
 })
 
 module.exports = sequelize

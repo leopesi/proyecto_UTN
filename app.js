@@ -1,26 +1,17 @@
+//Objeto
 const express = require('express')
 const morgan = require('morgan')
 
-require('dotenv').config()
-
+//Servidor
 const app = express();
 
-// Parser da Requisição HTTP
-app.use(express.json())
-
-//Middleware de logs
-app.use(morgan('dev'))
-
-const models = require('./src/models/model')
 port = 8080
 
-//Ruta
-app.use(require('./src/routes/usuario.router'))
-
-app.get('/', async (req, res) => {
-    res.send('Hola Mundo!')
-})
+//Settings
+app.use(express.json()) // Parser da Requisição HTTP
+app.use(morgan('dev'))  //Middleware de logs
+app.use(require('./src/routes/usuario.router'))  //Ruta
 
 app.listen(port, ()=> {
-    console.log(`Servidor rodando na porta ${port}`)
+    console.log(`Server funcionando en el puerto ${port}!`)
 })
