@@ -1,18 +1,23 @@
 //Objeto
-const controller = {}
+const CRUD = require('../controllers/crud');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-
+const User = require('../models/usuario.model')
 require('dotenv').config()
-
-//Model
-const User = require('../models/model')
 
 //Credenciais
 const SECRET = process.env.SECRET
 
+var userController = {
+    addUser: addUser,
+    findUsers: findUsers,
+    findUserById: findUserById,
+    updateUser: updateUser,
+    deleteById: deleteById
+}
+    
 //Register User
-controller.registerPost = (async (req, res) => {
+async function addUser(req, res) {
     console.log(req.body)
     const {nombre, apellido, email, password, confirmpassword} = req.body
 
@@ -35,6 +40,7 @@ controller.registerPost = (async (req, res) => {
 
     // Check if user exists
     const userExists = await User.findOne({ where:{ email: email}})
+    console.log(email)
     if (userExists) {
         return res.status(422).json({msg: 'El usuario ya existe, registre otro email'})
     }
@@ -60,8 +66,8 @@ controller.registerPost = (async (req, res) => {
         })
     }
 
-});
-
+};
+/*
 //Login
 controller.loginPost = (async (req, res) => {
     console.log(req.body)
@@ -101,32 +107,58 @@ controller.loginPost = (async (req, res) => {
     }
  
 })
+*/
 
 //funcion
-controller.getList = (async (req, res) => {
-    res.send('Cadastro GET List')
+async function findUsers(req, res) {
+    CRUD.findAll().
 
-});
+        then((data) => {
+            res.send(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
-controller.getId = (async (req, res) => {
-    res.send('Cadastro GET Id')
+};
+async function findUserById(req, res) {
+    CRUD.findById(req.params.id).
+        then((data) => {
+            res.send(data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
-});
+};
 
-controller.post = (async (req, res) => {
-    res.send("Cadastro POST");  
+async function updateUser(req, res) {
+    CRUD.updateUser(req.body, req.params.id).
+        then((data) => {
+            res.status(200).json({
+                message: "Gig updated successfully",
+                pesi: data
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
 
-});
+async function deleteById(req, res) {
+    CRUD.deleteById(req.params.id).
+        then((data) => {
+            res.status(200).json({
+                message: "Gig deleted successfully",
+                pesi: data
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 
-controller.put = (async (req, res) => {
-    res.send('Cadastro PUT')
+};
 
-});
-
-controller.delete = (async (req, res) => {
-    res.send('Cadastro DELETE')
-
-});
 
 //Modulo
-module.exports = controller;
+module.exports = userController;

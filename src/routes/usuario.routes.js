@@ -1,6 +1,7 @@
 require('dotenv').config()
 //Ruta
 const routes = require('express').Router();
+
 const jwt = require('jsonwebtoken');
 
 //Logica
@@ -15,7 +16,7 @@ function checkToken(req, res, next) {
     const token = authHeader && authHeader.split(' ')[1]
 
     if (!token) {
-        return res.status(401).json({msg: 'Acesso negado!'})
+        return res.status(401).json({msg: 'Acceso no permitido!'})
     }
     try {
         jwt.verify(token, SECRET)
@@ -25,25 +26,23 @@ function checkToken(req, res, next) {
     }
 }
 
-routes.get('/', async (req, res) => {
-    res.send('Hola Mundo!')
-})
+
 //Register User
-routes.post('/auth/register', controller.registerPost)
+routes.post('/', controller.addUser)
+
 
 //Login User
-routes.post('/auth/login', controller.loginPost)
+//routes.post('/login', controller)
+
 
 //Metodo de peticion
-routes.get('/usuario', controller.getList);
+routes.get('/', controller.findUsers);
 
-routes.get('/usuario/:id', checkToken, controller.getId);
+routes.get('/:id', checkToken, controller.findUserById);
 
-routes.post('/usuario/create/', controller.post);
+routes.put('/:id', controller.updateUser);
 
-routes.put('/usuario/:id', controller.put);
-
-routes.delete('/usuario/:id', controller.delete);
+routes.delete('/:id', controller.deleteById);
 
 //Modulo
 module.exports = routes;
