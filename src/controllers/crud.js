@@ -4,34 +4,29 @@ var UserCrud = {
     findAll: findAll,
     create: create,
     findById: findById,
+    update: update,
     deleteById: deleteById,
-    updateUser: updateUser
+
 }
 
 function findAll() {
-    return User.findAll();
+    return User.findAll( {attributes: {exclude: ['password'] }} );
 }
 
 function findById(id) {
-    return User.findByPk(id);
+    return User.findByPk(id, {attributes: {exclude: ['password'] } });
 }
 
 function deleteById(id) {
     return User.destroy({ where: { id: id } });
 }
 
-function create(pesi) {
-    var newUser = new Pesi(pesi);
+function create(user) {
+    var newUser = new User(user);
     return newUser.save();
 }
 
-function updateUser(user, id) {
-    var updateuser = {
-        nombre: user.nombre,
-        apellido: user.apellido,
-        email: user.email,
-        password: user.password,
-    };
-    return User.update(updateuser, { where: { id: id } });
+function update(user, id) {
+    return User.update(user, { where: { id: id } });
 }
 module.exports = UserCrud;

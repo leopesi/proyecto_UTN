@@ -1,11 +1,7 @@
 require('dotenv').config()
-//Ruta
 const routes = require('express').Router();
-
 const jwt = require('jsonwebtoken');
-
-//Logica
-const controller = require('../controllers/usuario.controller');
+const userController = require('../controllers/usuario.controller');
 
 //Credenciais
 const SECRET = process.env.SECRET
@@ -26,23 +22,14 @@ function checkToken(req, res, next) {
     }
 }
 
-
-//Register User
-routes.post('/', controller.addUser)
-
-
-//Login User
-//routes.post('/login', controller)
-
-
 //Metodo de peticion
-routes.get('/', controller.findUsers);
+routes.get('/user', checkToken, userController.find);
 
-routes.get('/:id', checkToken, controller.findUserById);
+routes.get('/user/:id', checkToken, userController.findById);
 
-routes.put('/:id', controller.updateUser);
+routes.put('/user/:id', checkToken, userController.update);
 
-routes.delete('/:id', controller.deleteById);
+routes.delete('/user/:id', checkToken, userController.deleteById);
 
 //Modulo
 module.exports = routes;
