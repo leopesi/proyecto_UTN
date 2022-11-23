@@ -1,112 +1,88 @@
-//Objeto
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-const User = require('../models/usuario.model')
-const CRUD = require('../controllers/crud');
-
 require('dotenv').config()
+const db = require("../models");
+const SECRET = process.env.SECRET;
+const User = db.user;
+const Role = db.role;
 
-//Credenciais
-const SECRET = process.env.SECRET
+const Op = db.Sequelize.Op;
 
-var authController = {
-    register: register,
-    login: login,
-    //logout: logout,
-}
-//Register User
-async function register(req, res) {
-    const {nombre, apellido, email, password, confirmpassword} = req.body
-    console.log(nombre)
-    //validation
-    if (!nombre) {
-        return res.status(422).json({message: 'Se requiere el nombre!'})
-    }
-    if (!apellido) {
-        return res.status(422).json({message: 'Se requiere el apellido!'})
-    }
-    if (!email) {
-        return res.status(422).json({message: 'Se requiere el email!'})
-    }
-    if (!password) {
-        return res.status(422).json({message: 'La contraseña es obligatoria!'})
-    }
-    if (password !== confirmpassword) {
-        return res.status(422).json({message: 'La confirmación de la contraseña es obligatoria'})
-    }
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcryptjs");
 
-    // Check if user exists
-    const userExists = await User.findOne({ where:{ email: email}})
-    console.log(email)
-    if (userExists) {
-        return res.status(422).json({msg: 'El usuario ya existe, registre otro email'})
-    }
-    // Create Password
-    const salt = await bcrypt.genSalt(10)
-    const passwordHash = await bcrypt.hash(password, salt)
-    // Create User
-    const user = {
-        nombre,
-        apellido,
-        email,
-        password: passwordHash,
-    }
-    try {
-        await CRUD.create(user) //todo
-        res.status(201).json({ msg: "Usuario creado con éxito!"})
-        console.log('Usuario creado com éxito!')
-    }catch (error) {
-        console.log(error)
-        res
-        .status(500)
-        .json({
-            msg: "Error del Servidor"
-        })
-    }
-
+exports.signup = (req, res) => {
+  // Save User to Database
+  User.create({
+    username: req.body.username,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 8)
+  })
+    .then(user => {
+      if (req.body.roles) {
+        Role.findAll({
+          where: {
+            name: {
+              [Op.or]: req.body.roles
+            }
+          }
+        }).then(roles => {
+          user.setRoles(roles).then(() => {
+            res.send({ message: "User registered successfully!" });
+          });
+        });
+      } else {
+        // user role = 1
+        user.setRoles([1]).then(() => {
+          res.send({ message: "User registered successfully!" });
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
 };
 
-
- 
-//Login
-async function login(req, res) {
-    const {email, password} = req.body
-
-    // Validations
-    if (!email) {
-        return res.status(422).json({message: 'Se requiere el email!!'})
+exports.signin = (req, res) => {
+  User.findOne({
+    where: {
+      username: req.body.username
     }
-    if (!password) {
-        return res.status(422).json({message: 'La contraseña es obligatoria!'})
-    }
+  })
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
 
-    // Check if user exists
-    const user = await User.findOne({ where:{ email: email}})
-    if (!user) {
-        return res.status(404).json({msg: 'Usuario no encontrado'})
-    }
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
 
-    // Check if password match
-    const checkPassword = await bcrypt.compare(password, user.password)
-    if (!checkPassword) {
-        return res.status(404).json({msg: 'Contraseña invalida'})
-    }
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!"
+        });
+      }
 
-    try {
-        const token = jwt.sign(
-            {
-                id: user._id,
-            },
-            SECRET,
-        )
-        res.status(200).json({msg:'Autenticación realizada con éxito', token})
-        console.log(`Usuario ${email} conectado`)
-    } catch (err) {
-        console.log(error)
-        res.status(500).json({msg:'erro'})
-    }
- 
-}
+      var token = jwt.sign({ id: user.id }, SECRET, {
+        expiresIn: 86400 // 24 hours
+      });
 
-//Modulo
-module.exports = authController;
+      var authorities = [];
+      user.getRoles().then(roles => {
+        for (let i = 0; i < roles.length; i++) {
+          authorities.push("ROLE_" + roles[i].name.toUpperCase());
+        }
+        res.status(200).send({
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          roles: authorities,
+          accessToken: token
+        });
+      });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
