@@ -17,7 +17,7 @@ var authController = {
 //Register User
 async function register(req, res) {
     const {nombre, apellido, email, password, confirmpassword} = req.body
-
+    console.log(nombre)
     //validation
     if (!nombre) {
         return res.status(422).json({message: 'Se requiere el nombre!'})

@@ -1,21 +1,33 @@
 //Objeto
 const CRUD = require('../controllers/crud');
 const bcrypt = require('bcrypt')
-const User = require('../models/usuario.model')
+const User = require('../models/usuario.model');
 require('dotenv').config()
 
 //Credenciais
 const SECRET = process.env.SECRET
 
 var userController = {
+    search: search,
     find: find,
     findById: findById,
     update: update,
     deleteById: deleteById
 }
-    
-
 //funcion
+
+async function search(req, res) {
+    const { nombre, apellido, email } = req.body;
+
+  let mysql =
+    "SELECT * from users4s WHERE nombre = ? AND apellido = ? AND email = ?";
+  db.query(mysql, [nombre, apellido, email], (err, result) => {
+    if (err) res.send(err);
+    res.send(result);
+    console.log(`Result --> ${result}`)
+  });
+}
+
 async function find(req, res) {
     CRUD.findAll().
 
