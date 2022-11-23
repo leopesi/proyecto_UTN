@@ -9,7 +9,8 @@ const cors = require("cors");
 app.use(cors())
 app.use(express.json()) // Parser da Requisição HTTP
 app.use(morgan('dev'))  //Middleware de logs
-app.use(require('./src/routes/index.routes'))  //Rutas
+//app.use(require('./src/routes/index.routes'))  //Rutas
+require('./src/routes/usuario.routes')(app);
 
 
 app.listen(PORT, ()=> {
