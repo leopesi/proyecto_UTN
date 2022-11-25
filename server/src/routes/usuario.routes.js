@@ -1,3 +1,4 @@
+const { authJwt } = require("../middleware");
 const userController = require('../controllers/usuario.controller');
 const API_URL = "/api/test/";
 
@@ -9,9 +10,9 @@ module.exports = function(app) {
   
     app.get(API_URL + "all", userController.allAccess);
   
-    //app.get(API_URL + "user", [authJwt.verifyToken], userController.userBoard);
+    app.get(API_URL + "user", [authJwt.verifyToken], userController.userBoard);
   
-    //app.get(API_URL + "mod", [authJwt.verifyToken, authJwt.isModerator], userController.moderatorBoard);
+    app.get(API_URL + "mod", [authJwt.verifyToken, authJwt.isModerator], userController.moderatorBoard);
   
-    //app.get(API_URL + "admin", [authJwt.verifyToken, authJwt.isAdmin], userController.adminBoard);
+    app.get(API_URL + "admin", [authJwt.verifyToken, authJwt.isAdmin], userController.adminBoard);
   };
