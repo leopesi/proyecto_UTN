@@ -18,7 +18,10 @@ sequelize.authenticate()
     console.log('error de conexión!');
 })
 
-sequelize.sync({alter: true})
+sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync Db');
+  initial();
+});
 
 const db = {};
 
@@ -40,5 +43,25 @@ db.user.belongsToMany(db.role, {
 });
 
 db.ROLES = ["user", "admin", "moderator"];
+
+const Role = db.role;
+
+function initial() {
+  Role.create({
+    id: 1,
+    name: "user"
+  });
+ 
+  Role.create({
+    id: 2,
+    name: "moderator"
+  });
+ 
+  Role.create({
+    id: 3,
+    name: "admin"
+  });
+}
+
 
 module.exports = db;
