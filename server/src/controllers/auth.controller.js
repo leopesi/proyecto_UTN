@@ -11,11 +11,28 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
   // Save User to Database
-  User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
-  })
+  const {username, email, password} = req.body
+  if(!username) {
+    return res.status(422).json({message: 'Se requiere el nombre!'})
+  }
+  if(!email) {
+    return res.status(422).json({message: 'Se requiere el email'})
+  }
+  if(!password) {
+    return res.status(422).json({message: 'La contraseña es obliatoria!'})
+  }
+  // Create Password
+  const salt = 8
+  const passwordHash = bcrypt.hashSync(password, salt)
+
+  // Create User
+  const newUser = {
+      username,
+      email,
+      password: passwordHash,
+  }
+
+  User.create(newUser)
     .then(user => {
       if (req.body.roles) {
         Role.findAll({
