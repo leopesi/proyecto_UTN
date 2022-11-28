@@ -9,7 +9,7 @@ For the application state, we use Redux connect() function with mapStateToProps:
 */
 
 import React, { Component } from "react";
-import { Redirect } from 'react-router-dom';
+import { redirect } from 'react-router-dom';
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -87,7 +87,7 @@ class Login extends Component {
     const { isLoggedIn, message } = this.props;
 
     if (isLoggedIn) {
-      return <Redirect to="/profile" />;
+      return redirect("/profile");
     }
 
     return (
