@@ -1,5 +1,5 @@
 require('dotenv').config()
-const db = require("../models");
+const db = require("../db/db");
 const SECRET = process.env.SECRET;
 const User = db.user;
 const Role = db.role;
@@ -11,11 +11,33 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
   // Save User to Database
-  User.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 8)
-  })
+  const {nombre, apellido, email, password} = req.body
+  console.log(req.body)
+  if(!nombre) {
+    return res.status(422).json({message: 'Se requiere el nombre!'})
+  }
+  if(!apellido) {
+    return res.status(422).json({message: 'Se requiere el apellido!'})
+  }
+  if(!email) {
+    return res.status(422).json({message: 'Se requiere el email'})
+  }
+  if(!password) {
+    return res.status(422).json({message: 'La contraseña es obliatoria!'})
+  }
+  // Create Password
+  const salt = 8
+  const passwordHash = bcrypt.hashSync(password, salt)
+
+  // Create User
+  const newUser = {
+      nombre,
+      apellido,
+      email,
+      password: passwordHash,
+  }
+
+  User.create(newUser)
     .then(user => {
       if (req.body.roles) {
         Role.findAll({
@@ -44,7 +66,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({
     where: {
-      username: req.body.username
+      nombre: req.body.nombre
     }
   })
     .then(user => {
@@ -75,7 +97,7 @@ exports.signin = (req, res) => {
         }
         res.status(200).send({
           id: user.id,
-          username: user.username,
+          nombre: user.nombre,
           email: user.email,
           roles: authorities,
           accessToken: token
