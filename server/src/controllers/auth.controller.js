@@ -1,5 +1,5 @@
 require('dotenv').config()
-const db = require("../models");
+const db = require("../db/db");
 const SECRET = process.env.SECRET;
 const User = db.user;
 const Role = db.role;
@@ -11,9 +11,13 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
   // Save User to Database
-  const {username, email, password} = req.body
-  if(!username) {
+  const {nombre, apellido, email, password} = req.body
+  console.log(req.body)
+  if(!nombre) {
     return res.status(422).json({message: 'Se requiere el nombre!'})
+  }
+  if(!apellido) {
+    return res.status(422).json({message: 'Se requiere el apellido!'})
   }
   if(!email) {
     return res.status(422).json({message: 'Se requiere el email'})
@@ -27,7 +31,8 @@ exports.signup = (req, res) => {
 
   // Create User
   const newUser = {
-      username,
+      nombre,
+      apellido,
       email,
       password: passwordHash,
   }
@@ -61,7 +66,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   User.findOne({
     where: {
-      username: req.body.username
+      nombre: req.body.nombre
     }
   })
     .then(user => {
@@ -92,7 +97,7 @@ exports.signin = (req, res) => {
         }
         res.status(200).send({
           id: user.id,
-          username: user.username,
+          nombre: user.nombre,
           email: user.email,
           roles: authorities,
           accessToken: token
