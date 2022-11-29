@@ -63,7 +63,8 @@ const Register = () => {
   const form = useRef();
   const checkBtn = useRef();
 
-  const [username, setUsername] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
@@ -71,9 +72,14 @@ const Register = () => {
   const { message } = useSelector(state => state.message);
   const dispatch = useDispatch();
 
-  const onChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(username);
+  const onChangeNombre = (e) => {
+    const nombre = e.target.value;
+    setNombre(nombre);
+  };
+
+  const onChangeApellidoe = (e) => {
+    const apellido = e.target.value;
+    setApellido(apellido);
   };
 
   const onChangeEmail = (e) => {
@@ -94,7 +100,7 @@ const Register = () => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      dispatch(register(username, email, password))
+      dispatch(register(nombre, apellido, email, password))
         .then(() => {
           setSuccessful(true);
         })
@@ -117,13 +123,25 @@ const Register = () => {
           {!successful && (
             <div>
               <div className="form-group">
-                <label htmlFor="username">Username</label>
+                <label htmlFor="username">Nombre</label>
                 <Input
                   type="text"
                   className="form-control"
-                  name="username"
-                  value={username}
-                  onChange={onChangeUsername}
+                  name="Nombre"
+                  value={nombre}
+                  onChange={onChangeNombre}
+                  validations={[required, vusername]}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="username">Apellido</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="Apellido"
+                  value={apellido}
+                  onChange={onChangeApellidoe}
                   validations={[required, vusername]}
                 />
               </div>
