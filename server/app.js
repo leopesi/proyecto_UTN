@@ -16,6 +16,7 @@ require("./src/db/db")
 
 //Rutas
 require('./src/routes/usuario.routes')(app);
+require('./src/routes/auth.routes')(app);
 
 
 app.listen(PORT, ()=> {
