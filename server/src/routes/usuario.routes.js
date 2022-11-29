@@ -1,6 +1,6 @@
 const { authJwt } = require("../middleware");
 const userController = require('../controllers/usuario.controller');
-const API_URL = "/api/test/";
+const API_URL = "/test/";
 
 module.exports = function(app) {
     app.use(function(req, res, next) {
