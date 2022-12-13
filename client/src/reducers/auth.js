@@ -22,8 +22,8 @@ import {
     switch (type) {
       case REGISTER_SUCCESS:
         return {
-          ...state,
-          isLoggedIn: false,
+          ...state, // retorna o state anterior
+          isLoggedIn: false, //retorna um novo state
         };
       case REGISTER_FAIL:
         return {

@@ -2,7 +2,7 @@
 import TokenService from "./token.service";
 import api from "./api";
 
-const API_URL = "http://localhost:8000/auth/";
+const API_URL = "http://localhost:8080/auth/";
 
 const register = (nombre, apellido, email, password) => {
   return api.post(API_URL + "signup", {

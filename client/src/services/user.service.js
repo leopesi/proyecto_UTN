@@ -2,7 +2,7 @@
 //import authHeader from "./auth-header";
 import api from './api';
 
-const API_URL = "http://localhost:8000/test/";
+const API_URL = "http://localhost:8080/role/";
 
 const getPublicContent = () => {
   return api.get(API_URL + "all");

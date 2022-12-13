@@ -11,5 +11,5 @@ const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(...middleware))
 );
-
+window.store = store;
 export default store;

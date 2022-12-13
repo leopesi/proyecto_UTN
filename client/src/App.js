@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Link, useLocation } from "react-router-dom";
-
+ 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -19,9 +19,9 @@ import { clearMessage } from "./actions/message";
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
-
-  const { user: currentUser } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+   
+  const { user: currentUser } = useSelector((state) => state.auth); //Permite extrair dados do estado da Redux store, usando uma função selector.
+  const dispatch = useDispatch(); //O discpatch envia uma ação, ou action, para a store.
 
   let location = useLocation();
 
