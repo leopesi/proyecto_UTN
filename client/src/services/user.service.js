@@ -2,22 +2,20 @@
 //import authHeader from "./auth-header";
 import api from './api';
 
-const API_URL = "http://localhost:8080/role/";
-
 const getPublicContent = () => {
-  return api.get(API_URL + "all");
+  return api.get("/role/all");
 };
 
 const getUserBoard = () => {
-  return api.get(API_URL + "user");
+  return api.get("/role/user");
 };
 
 const getModeratorBoard = () => {
-  return api.get(API_URL + "mod");
+  return api.get("/role/mod");
 };
 
 const getAdminBoard = () => {
-  return api.get(API_URL + "admin");
+  return api.get("/role/admin");
 };
 
 const userService = {

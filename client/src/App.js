@@ -13,6 +13,12 @@ import BoardUser from "./components/BoardUser";
 import BoardModerator from "./components/BoardModerator";
 import BoardAdmin from "./components/BoardAdmin";
 
+//import ClientEdit from './components/client/Client'
+import ClientList from './components/client/ClientList'
+import AddClient from './components/client/AddClient'
+import Client from './components/client/Client'
+
+
 import { logout } from "./actions/auth";
 import { clearMessage } from "./actions/message";
 
@@ -75,11 +81,24 @@ const App = () => {
           )}
 
           {currentUser && (
-            <li className="nav-item">
-              <Link to={"/user"} className="nav-link">
-                User
-              </Link>
-            </li>
+            <>
+              <li className="nav-item">
+                <Link to={"/user"} className="nav-link">
+                  User
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/client/add"} className="nav-link">
+                  Add
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/client"} className="nav-link">
+                  Clientes
+                </Link>
+              </li>
+              
+            </>
           )}
         </div>
 
@@ -123,6 +142,11 @@ const App = () => {
           <Route path="/user" element={<BoardUser />} />
           <Route path="/mod" element={<BoardModerator />} />
           <Route path="/admin" element={<BoardAdmin />} />
+
+          <Route path="/client" element={<ClientList />} />  
+          <Route path="/client/add" element={<AddClient />} />
+          <Route path="/client/:id" element={<Client />} />
+          
         </Routes>
       </div>
 

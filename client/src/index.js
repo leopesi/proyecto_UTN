@@ -1,11 +1,10 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import store from "./store";
 import "./index.css";
 import App from "./App";
+import store from "./store";
 import setupInterceptors from "./services/setupInterceptors";
-
 import { BrowserRouter } from "react-router-dom";
 
 const container = document.getElementById("root");
@@ -19,3 +18,4 @@ root.render(
   </Provider>
 );
 setupInterceptors(store);
+
