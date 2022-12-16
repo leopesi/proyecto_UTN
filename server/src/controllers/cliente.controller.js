@@ -31,14 +31,14 @@ async function create(req, res){
         email,
         telefono
     }
-    try {
-        await Cliente.create(clienteReq)
+    await Cliente.create(clienteReq).
+    then((result) => {
+        res.send({ id: result.id})
         res.status(201).json({msg: "Cliente criado com éxito!"})
-    }
-    catch {
-        console.log(comment)
-        res.status(500).json({msg: "Error del Servidor!"})
-    }
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 }
 
 async function findAll(req, res) {
@@ -75,7 +75,7 @@ async function update(req, res) {
 
     Cliente.update(cliente, { where: { id: req.params.id } }).
         then((data) => {
-            res.status(200).json({
+            res.status(204).json({
                 message: "Cliente actualizado exitosamente!",
                 tutorial: cliente
                 
@@ -89,7 +89,7 @@ async function update(req, res) {
 async function deleteById(req, res) {
     Cliente.destroy({ where: { id: req.params.id } }).
         then((data) => {
-            res.status(200).json({
+            res.status(204).json({
                 message: "Cliente apagado exitosamente!",
                 tutorial: data
             })
@@ -101,4 +101,3 @@ async function deleteById(req, res) {
 }
 
 module.exports = postCliente;
-
