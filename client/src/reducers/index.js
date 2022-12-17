@@ -5,11 +5,17 @@ import { combineReducers } from "redux";
 
 import auth from "./auth";
 import message from "./message";
-import client from '../slice/clients'
+import clientId from "./client"
 
+
+import client from '../slice/clients'
+import direccion from "../slice/direccion";
 
 export default combineReducers({
   auth,
   message,
+  clientId,
+
   client,
+  direccion
 });

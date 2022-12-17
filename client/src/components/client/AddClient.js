@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createClient } from "../../slice/clients";
+import { useNavigate } from 'react-router-dom';
 
 const AddClient = () => {
+  let navigate = useNavigate();
+  
   const initialClientState = {
     id: null,
     nombre: "",
@@ -43,19 +46,12 @@ const AddClient = () => {
       });
   };
 
-  const newClient = () => {
-    setClient(initialClientState);
-    setSubmitted(false);
-  };
-
   return (
     <div className="submit-form">
       {submitted ? (
         <div>
           <h4>You submitted successfully!</h4>
-          <button className="btn btn-success" onClick={newClient}>
-            Add
-          </button>
+          {navigate("/direccion/add")}
         </div>
       ) : (
         <div>

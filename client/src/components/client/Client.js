@@ -79,7 +79,7 @@ const Client = (props) => {
     dispatch(deleteClient({ id: currentClient.id }))
       .unwrap()
       .then(() => {
-        navigate("/Clients");
+        navigate("/client");
       })
       .catch(e => {
         console.log(e);
@@ -147,27 +147,28 @@ const Client = (props) => {
 
           {currentClient.published ? (
             <button
-              className="badge badge-primary mr-2"
+              className="m-1 btn btn-sm btn-info mr-2"
               onClick={() => updateStatus(false)}
             >
               UnPublish
             </button>
           ) : (
             <button
-              className="badge badge-primary mr-2"
+              className="m-1 btn btn-sm btn-info mr-2"
               onClick={() => updateStatus(true)}
             >
               Publish
             </button>
           )}
 
-          <button className="badge badge-danger mr-2" onClick={removeClient}>
+          <button className="m-1 btn btn-sm btn-danger mr-2" onClick={removeClient}>
             Delete
           </button>
+          
 
           <button
             type="submit"
-            className="badge badge-success"
+            className="m-1 btn btn-sm btn-warning"
             onClick={updateContent}
           >
             Update

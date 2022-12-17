@@ -6,6 +6,8 @@ const initialState = [];
 export const createClient = createAsyncThunk("client/create",
   async ({nombre, apellido, email, telefono }) => {
     const res = await ClientDataService.create({ nombre, apellido, email, telefono });
+    console.log(`Get ClientId ${ res.id }`)
+    console.log(`Get ClientData ${ res.data }`)
     return res.data;
   }
 );
@@ -13,6 +15,7 @@ export const createClient = createAsyncThunk("client/create",
 export const retrieveClients = createAsyncThunk("client/retrieve",
   async () => {
     const res = await ClientDataService.getAll();
+    //console.log(res.data)
     return res.data;
   }
 );

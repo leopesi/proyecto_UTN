@@ -1,6 +1,5 @@
 import api from "../services/api";
 
-
 const getAll = () => {
   return api.get("/cliente");
 };
@@ -36,7 +35,7 @@ const ClientService = {
   update,
   remove,
   removeAll,
-  findByName
+  findByName,
 };
 
 export default ClientService;
