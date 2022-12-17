@@ -18,10 +18,7 @@ sequelize.authenticate()
     console.log('error de conexión!');
 })
 
-sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync Db');
-  initial();
-});
+//sequelize.sync({force: true}).then(() => {console.log('Drop and Resync Db'); initial();});
 
 const db = {};
 
@@ -30,6 +27,8 @@ db.sequelize = sequelize;
 
 db.user = require("../models/usuario.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
+db.cliente = require('../models/cliente.model')(sequelize, Sequelize);
+db.direccion = require('../models/direccion.model')(sequelize, Sequelize)
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -40,6 +39,11 @@ db.user.belongsToMany(db.role, {
   through: "user_roles",
   foreignKey: "userId",
   otherKey: "roleId"
+});
+db.cliente.hasMany(db.direccion, { as: "direccion" });
+db.direccion.belongsTo(db.cliente, {
+  foreignKey: "clienteId",
+  as: "cliente",
 });
 
 db.ROLES = ["user", "admin", "moderator"];

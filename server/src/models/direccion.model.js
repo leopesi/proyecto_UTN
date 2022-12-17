@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Direccion = sequelize.define('Direccion', {
+    const Direccion = sequelize.define('direccion', {
         id: {
             type: Sequelize.INTEGER,
             autoIncrement: true,

@@ -7,10 +7,14 @@ var direccionController = {
     findById: findById,
     update: update,
     deleteById: deleteById,
+    findByClienteId: findByClienteId,
 }
 
 async function create(req, res){
     const {provincia, ciudad, calle, numero, zipcode} = req.body
+    console.log(`req.body ${provincia, ciudad, calle, numero, zipcode}`)
+    const clienteId = req.params.id
+    console.log(`clienteId ${clienteId}`)
     if(!provincia) {
         return res.status(422).json({message: "Se requiere la provincia!"})
     }
@@ -33,7 +37,8 @@ async function create(req, res){
         ciudad,
         calle,
         numero,
-        zipcode
+        zipcode,
+        clienteId,
     }
     try {
         await Direccion.create(direccionReq)
@@ -67,6 +72,17 @@ async function findById(req, res) {
     });
 }
 
+async function findByClienteId(req, res) {
+    await Direccion.findOne({ where: { clienteId: req.params.id } }).
+    then((data) => {
+        res.send(data)
+        console.log(`Direccion encontrado. ${data}`)
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
 async function update(req, res) {
     const {provincia, ciudad, calle, numero, zipcode} = req.body
     var direccion = {
@@ -79,7 +95,7 @@ async function update(req, res) {
 
     Direccion.update(direccion, { where: { id: req.params.id } }).
         then((data) => {
-            res.status(200).json({
+            res.status(204).json({
                 message: "Direccion actualizado exitosamente!",
                 tutorial: direccion
                 
@@ -93,7 +109,7 @@ async function update(req, res) {
 async function deleteById(req, res) {
     Direccion.destroy({ where: { id: req.params.id } }).
         then((data) => {
-            res.status(200).json({
+            res.status(204).json({
                 message: "Direccion apagada exitosamente!",
                 tutorial: data
             })

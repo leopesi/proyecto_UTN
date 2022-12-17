@@ -12,7 +12,6 @@ var bcrypt = require("bcryptjs");
 exports.signup = (req, res) => {
   // Save User to Database
   const {nombre, apellido, email, password} = req.body
-  console.log(req.body)
   if(!nombre) {
     return res.status(422).json({message: 'Se requiere el nombre!'})
   }
@@ -48,13 +47,13 @@ exports.signup = (req, res) => {
           }
         }).then(roles => {
           user.setRoles(roles).then(() => {
-            res.send({ message: "User registered successfully!" });
+            res.send({ message: "Usuario registrado con éxito!" });
           });
         });
       } else {
         // user role = 1
         user.setRoles([1]).then(() => {
-          res.send({ message: "User registered successfully!" });
+          res.send({ message: "Usuario registrado con éxito!" });
         });
       }
     })

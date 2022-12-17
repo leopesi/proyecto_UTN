@@ -15,9 +15,10 @@ app.use(morgan('dev'))  //Middleware de logs
 require("./src/db/db")
 
 //Rutas
-require('./src/routes/usuario.routes')(app);
+require('./src/routes/role.routes')(app);
 require('./src/routes/auth.routes')(app);
-
+require('./src/routes/cliente.routes')(app);
+require('./src/routes/direccion.routes')(app);
 
 app.listen(PORT, ()=> {
     console.log(`Server funcionando en el puerto ${PORT}!`)

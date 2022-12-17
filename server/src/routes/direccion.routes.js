@@ -7,9 +7,10 @@ module.exports = function(app) {
       next();
     });
   
-    app.post("/direccion/", direccionController.create);
+    app.post("/direccion/:id", direccionController.create);
     app.get("/direccion/", direccionController.findAll );
     app.get("/direccion/:id", direccionController.findById );
+    app.get("/direccion/cliente/:id", direccionController.findByClienteId );
     app.put("/direccion/:id", direccionController.update  );
     app.delete("/direccion/:id", direccionController.deleteById );
   };

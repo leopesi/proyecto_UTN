@@ -10,8 +10,7 @@ module.exports = function(app) {
     next();
   });
 
-  app.post(
-    "/auth/signup",
+  app.post("/auth/signup",
     [
       verifySignUp.checkDuplicateUsernameOrEmail,
       verifySignUp.checkRolesExisted
