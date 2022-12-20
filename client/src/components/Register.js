@@ -106,90 +106,95 @@ const Register = () => {
     }
   };
 
-  return (
-    <div className="row d-flex justify-content-center ">
-      <div className="card col-sm-3">
-        <img src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="profile-img" className="profile-img-card w-100"/>
-        <div className="card-header" >
-          
-
-          <Form onSubmit={handleRegister} ref={form}>
-            {!successful && (
-              <div>
-                <div className="form-group">
-                  <label htmlFor="username"></label>
-                  <Input
-                    placeholder="Nombre"
-                    type="text"
-                    className="form-control"
-                    name="Nombre"
-                    value={nombre}
-                    onChange={onChangeNombre}
-                    validations={[required, vusername]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="username"></label>
-                  <Input
-                    placeholder="Apellido"
-                    type="text"
-                    className="form-control"
-                    name="Apellido"
-                    value={apellido}
-                    onChange={onChangeApellidoe}
-                    validations={[required, vusername]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="email"></label>
-                  <Input
-                    placeholder="Email"    
-                    type="text"
-                    className="form-control"
-                    name="email"
-                    value={email}
-                    onChange={onChangeEmail}
-                    validations={[required, validEmail]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="password"></label>
-                  <Input
-                    placeholder="Password"
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    value={password}
-                    onChange={onChangePassword}
-                    validations={[required, vpassword]}
-                  />
-                </div>
-
-                <div className="form-row">
-                  <button type="submit" className="btn btn-primary btn-block my-3">Sign Up</button>
-                </div>
-
-              </div>
-            )}
-
-            {message && (
-              <div className="form-group">
-                <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">
-                  {message}
-                </div>
-              </div>
-            )}
-            <CheckButton style={{ display: "none" }} ref={checkBtn} />
-          </Form>
+  return(
+    <div class="container-fluid col-lg-3">
+    <div class="row">
+      <div class="sidenav text-center">
+        <div class="login-main-text  ">
+            <h2>Proyecto UTN<br></br> Register </h2>
+            <p>Register from here to access.</p>
         </div>
+        <img
+        src="code-128.png"
+        alt="profile-img"
+        className="profile-img-card"
+        />
       </div>
-
     </div>
-    
-      
+
+    <div className="row">
+      <div class="login-form">
+        <Form onSubmit={handleRegister} ref={form}>
+          {!successful && (
+              <div>
+              <div className="form-group">
+                <label htmlFor="username"></label>
+                <Input
+                  placeholder="Nombre"
+                  type="text"
+                  className="form-control"
+                  name="Nombre"
+                  value={nombre}
+                  onChange={onChangeNombre}
+                  validations={[required, vusername]}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="username"></label>
+                <Input
+                  placeholder="Apellido"
+                  type="text"
+                  className="form-control"
+                  name="Apellido"
+                  value={apellido}
+                  onChange={onChangeApellidoe}
+                  validations={[required, vusername]}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="email"></label>
+                <Input
+                  placeholder="Email"    
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  value={email}
+                  onChange={onChangeEmail}
+                  validations={[required, validEmail]}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="password"></label>
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  className="form-control"
+                  name="password"
+                  value={password}
+                  onChange={onChangePassword}
+                  validations={[required, vpassword]}
+                />
+              </div>
+              <div class="row text-center mt-4">
+                <button type="submit" class="btn btn-secondary ">Register</button>
+              </div>
+            </div>
+          )}           
+          {message && (
+          <div class="form-group">
+            <div class="alert alert-primary" role="alert">
+              {message}
+            </div>
+          </div>
+          )}
+          <CheckButton style={{ display: "none" }} ref={checkBtn} />
+        </Form>
+      </div>
+    </div>
+  </div>   
   );
 };
 

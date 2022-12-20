@@ -36,7 +36,6 @@ const Login = (props) => {
 
   const [nombre, setNombre] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const { isLoggedIn } = useSelector(state => state.auth);
   const { message } = useSelector(state => state.message);
@@ -56,8 +55,6 @@ const Login = (props) => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    setLoading(true);
-
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
@@ -67,10 +64,10 @@ const Login = (props) => {
           window.location.reload();
         })
         .catch(() => {
-          setLoading(false);
+
         });
     } else {
-      setLoading(false);
+
     }
   };
 
@@ -79,59 +76,68 @@ const Login = (props) => {
   }
 
   return (
-    <div className="col-md-12">
-      <div className="card card-container">
-        <img
-          src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+    <div class="container-fluid col-lg-3">
+      <div class="row">
+        <div class="sidenav text-center">
+          <div class="login-main-text  ">
+              <h2>Proyecto UTN<br></br> Login </h2>
+              <p>Login from here to access.</p>
+          </div>
+          <img
+          src="code-128.png"
           alt="profile-img"
           className="profile-img-card"
-        />
-
-        <Form onSubmit={handleLogin} ref={form}>
-          <div className="form-group">
-            <label htmlFor="nombre">Nombre</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="nombre"
-              value={nombre}
-              onChange={onChangeNombre}
-              validations={[required]}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Password</label>
-            <Input
-              type="password"
-              className="form-control"
-              name="password"
-              value={password}
-              onChange={onChangePassword}
-              validations={[required]}
-            />
-          </div>
-
-          <div className="form-group">
-            <button className="btn btn-primary btn-block" disabled={loading}>
-              {loading && (
-                <span className="spinner-border spinner-border-sm"></span>
-              )}
-              <span>Login</span>
-            </button>
-          </div>
-
-          {message && (
-            <div className="form-group">
-              <div className="alert alert-danger" role="alert">
-                {message}
-              </div>
-            </div>
-          )}
-          <CheckButton style={{ display: "none" }} ref={checkBtn} />
-        </Form>
+          />
+        </div>
       </div>
-    </div>
+
+      <div className="row">
+        <div class="login-form">
+
+          <Form onSubmit={handleLogin} ref={form}>  
+            <div class="form-group">
+                <label>Nombre</label>
+                <Input 
+                type="text"
+                class="form-control"
+                name="nombre"
+                value={nombre}
+                onChange={onChangeNombre}
+                validations={[required]} 
+                placeholder="Nombre">
+                </Input>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <Input 
+                type="password"
+                class="form-control"
+                name="password"
+                value={password}
+                onChange={onChangePassword}
+                validations={[required]}
+                placeholder="Password">
+                  
+                </Input>
+            </div>
+            <div className="row text-center mt-4">
+              <button type="submit" class="btn btn-secondary">Login</button>
+              {message && (
+              <div class="form-group">
+                <div class="alert alert-danger" role="alert">
+                  {message}
+                </div>
+              </div>
+              )}
+              <CheckButton style={{ display: "none" }} ref={checkBtn} />
+
+            </div>
+
+          </Form>
+        </div>
+      </div>
+    </div>    
+      
   );
 };
 

@@ -55,106 +55,103 @@ const App = () => {
   }, [currentUser]);
 
   return (
-    <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
-      <div class="container-fluid">
+    <header >
+      <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+              <img
+                src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
+                class="me-2"
+                height="20"
+                alt="MDB Logo"
+                loading="lazy"
+              />
+              
+              <small>
+                <Link to={"/"} rel="icon"  href="%PUBLIC_URL%/code-128.png"  className="navbar-brand mt-2 mt-lg-0">Proyecto UTN</Link>
+              </small>
+            </a>
 
-          <a class="navbar-brand" href="/">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
-              class="me-2"
-              height="20"
-              alt="MDB Logo"
-              loading="lazy"
-            />
             
-            <small>
-              <Link to={"/"} rel="icon"  href="%PUBLIC_URL%/code-128.png"  className="navbar-brand mt-2 mt-lg-0">Proyecto UTN</Link>
-            </small>
-          </a>
+            <div className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link to={"/home"} className="nav-link">
+                  Home
+                </Link>
+              </li>
+
+              {showModeratorBoard && (
+                <li className="nav-item">
+                  <Link to={"/mod"} className="nav-link">
+                    Moderator Board
+                  </Link>
+                </li>
+              )}
+
+              {showAdminBoard && (
+                <li className="nav-item">
+                  <Link to={"/admin"} className="nav-link">
+                    Admin Board
+                  </Link>
+                </li>
+              )}
+
+              {currentUser && (
+                <>
+                  <li className="nav-item">
+                    <Link to={"/client/add"} className="nav-link">
+                      Registrar
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to={"/client"} className="nav-link">
+                      Clientes
+                    </Link>
+                  </li>
+
+                  <li className="nav-item">
+                    <Link to={"/direccion"} className="nav-link">
+                      Direcciones
+                    </Link>
+                  </li>
+                  
+                </>
+              )}
+            </div>
+
+            {currentUser ? (
+              <div className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link to={"/profile"} className="nav-link">
+                    {currentUser.nombre}
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <a href="/login" className="nav-link" onClick={logOut}>
+                    LogOut
+                  </a>
+                </li>
+              </div>
+            ) : (
+              <div className="navbar-nav ml-auto">
+                <li className="nav-item">
+                  <Link to={"/login"} className="nav-link">
+                    Login
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link to={"/register"} className="nav-link">
+                    Sign Up
+                  </Link>
+                </li>
+              </div>
+            )}
+
 
           
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li>
-
-            {showModeratorBoard && (
-              <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
-                  Moderator Board
-                </Link>
-              </li>
-            )}
-
-            {showAdminBoard && (
-              <li className="nav-item">
-                <Link to={"/admin"} className="nav-link">
-                  Admin Board
-                </Link>
-              </li>
-            )}
-
-            {currentUser && (
-              <>
-                <li className="nav-item">
-                  <Link to={"/client/add"} className="nav-link">
-                    Registrar
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link to={"/client"} className="nav-link">
-                    Clientes
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link to={"/direccion"} className="nav-link">
-                    Direcciones
-                  </Link>
-                </li>
-                
-              </>
-            )}
-          </div>
-
-          {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  {currentUser.nombre}
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={logOut}>
-                  LogOut
-                </a>
-              </li>
-            </div>
-          ) : (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
-            </div>
-          )}
-
-
-        
-      </div>
-       
+        </div>
       </nav>
-
       <div className="container mt-3">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -177,7 +174,7 @@ const App = () => {
         </Routes>
       </div>
 
-    </div>
+    </header >
   );
 };
 

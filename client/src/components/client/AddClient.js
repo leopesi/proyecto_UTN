@@ -107,7 +107,7 @@ const AddClient = () => {
             />
           </div>
 
-          <button onClick={saveClient} className="btn btn-success">
+          <button onClick={saveClient} className="btn btn-success mt-4">
             Submit
           </button>
         </div>
