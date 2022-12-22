@@ -1,5 +1,7 @@
 # Proyecto final del curso Programador Web Avanzado da UTN - (Universidad Tecnológica Nacional - Buenos Aires)
 
+[![Ver la documentación](https://run.pstmn.io/button.svg)](https://www.postman.com/restless-water-10959/workspace/df598f0c-36bb-4178-9a08-3c2420741c64/api/d1301b31-098b-4651-8d18-ee78cb941df8)
+
 # Empezando 
 
 ## Creación de una base de datos de muestra
@@ -56,28 +58,26 @@ Ahora, para iniciar la aplicación, escriba:
 npm start
 ```
 
+_____________________________________________
 
 
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/restless-water-10959/workspace/df598f0c-36bb-4178-9a08-3c2420741c64/api/d1301b31-098b-4651-8d18-ee78cb941df8)
+<img src="https://user-images.githubusercontent.com/52714788/209237944-77d0b851-703a-4ad1-9bbb-73b5d5f59764.JPG">
 
+<img src="https://user-images.githubusercontent.com/52714788/209238105-e32714e7-00bb-457e-a87a-047d14032360.JPG">
 
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide1.JPG">
+<img src="https://user-images.githubusercontent.com/52714788/209238160-819d2da4-beb6-4aaa-822c-1105b62745c0.JPG">
 
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide2.JPG">
+<img src="https://user-images.githubusercontent.com/52714788/209238273-ab115c23-7699-4858-ac18-d2e1ffbf6717.JPG">
 
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide3.JPG">
+<img src="https://user-images.githubusercontent.com/52714788/209238360-e7e9099e-1a32-413a-9f4c-44c3ef04bbb6.JPG">
 
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide4.JPG">
+<img src="https://user-images.githubusercontent.com/52714788/209238424-55aec562-b93e-4e90-9b4b-fd599ce91682.JPG">
 
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide5.JPG">
+<img src="https://user-images.githubusercontent.com/52714788/209238481-db44b031-5a97-4506-873a-10b397e8f7ed.JPG">
 
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide6.JPG">
+<img src="https://user-images.githubusercontent.com/52714788/209238541-1a9c9121-02cb-4a69-9e80-11160d863f61.JPG">
 
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide7.JPG">
+<img src="https://user-images.githubusercontent.com/52714788/209238580-ce868e13-8088-457d-8165-2c5dc781b44b.JPG">
 
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide8.JPG">
-
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide9.JPG">
-
-<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/Fluxograma_Proyecto_UTN/Slide10.JPG">
+<img src="https://user-images.githubusercontent.com/52714788/209238654-30f8a99f-131f-4eb3-b0d1-f3b4a792c229.JPG">
