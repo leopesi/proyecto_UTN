@@ -18,7 +18,7 @@ sequelize.authenticate()
     console.log('error de conexión!');
 })
 
-//sequelize.sync({force: true}).then(() => {console.log('Drop and Resync Db'); initial();});
+sequelize.sync({}).then(() => {console.log('Drop and Resync Db'); initial();});
 
 const db = {};
 

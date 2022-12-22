@@ -40,20 +40,21 @@ async function create(req, res){
         zipcode,
         clienteId,
     }
-    try {
-        await Direccion.create(direccionReq)
+    console.log(direccionReq)
+    await Direccion.create(direccionReq).
+    then((data) => {
+        res.send(data)
         res.status(201).json({msg: "Direccion criada com éxito!"})
-    }
-    catch {
-        res.status(500).json({msg: "Error del Servidor!"})
-    }
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 }
 
 async function findAll(req, res) {
     await Direccion.findAll().
     then((data) => {
         res.send(data);
-        console.log('Lista de direcciones encontrada!')
     })
     .catch((error) => {
         console.log(error);
@@ -65,7 +66,6 @@ async function findById(req, res) {
     await Direccion.findByPk(req.params.id).
     then((data) => {
         res.send(data)
-        console.log('Direccion encontrado.')
     })
     .catch((error) => {
         console.log(error);
