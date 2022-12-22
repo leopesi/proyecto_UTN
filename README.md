@@ -1,6 +1,6 @@
 # Proyecto final del curso Programador Web Avanzado da UTN - (Universidad Tecnológica Nacional - Buenos Aires)
 
-# Getting Started 
+# Empezando 
 
 ## Creación de una base de datos de muestra
 
@@ -20,25 +20,40 @@ CREATE DATABASE hello_world_db
 ```
 Para verificar que ha creado correctamente la base de datos, puede usar este comando:
 ```shell
-SHOW DATABASES;
+SHOW DATABASES
 ```
 
 
-## Installation
-All you need to do is clone this repository
+## Instalacion
+Todo lo que necesitas hacer es clonar este repositorio:
 
 ```shell
 git clone https://github.com/leopesi/proyecto_UTN.git
 ```
 
 ## Running
-Application has very few dependencies, so it’s most probably very easy to understand when you scan through the code, but there is at least few steps you should know.
+La aplicación tiene muy pocas dependencias, por lo que probablemente sea muy fácil de entender cuando escanea el código, pero hay al menos algunos pasos que debe conocer.
 
-Start Back-end Node application
+### Start Back-end Node application
 
-To install the dependencies, type In the /server directory:
+Para instalar las dependencias, escriba en el directorio /server:
 ```shell
 npm install
+```
+Ahora, para iniciar la aplicación, escriba:
+```shell
+npm start
+```
+
+### Start Front-end React application
+
+Para instalar las dependencias, escriba en el directorio /server:
+```shell
+npm install
+```
+Ahora, para iniciar la aplicación, escriba:
+```shell
+npm start
 ```
 
 
