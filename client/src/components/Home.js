@@ -22,8 +22,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div class="container">
-      <header class="jumbotron">
+    <div className="container">
+      <header className="jumbotron">
         <link rel="apple-touch-icon" href="%PUBLIC_URL%/code-128.png" />
         <h3>{content}</h3>
       </header>

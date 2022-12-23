@@ -148,7 +148,7 @@ const DireccionsList = () => {
         ) : (
           <div>
             <br />
-            <p>Please click on a Direccion...</p>
+            <p>Seleccione la Direccion...</p>
           </div>
         )}
       </div>

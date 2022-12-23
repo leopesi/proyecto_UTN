@@ -1,79 +1,47 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {retrieveClients, deleteAllClients} from "../../slice/clients";
-import {findDireccionsByClienteId} from "../../slice/direccion";
+import {retrieveDireccions, findDireccionsByClienteId} from "../../slice/direccion";
 import { Link } from "react-router-dom";
 
 const ClientsList = () => {
-  const initialClientState = {
-
-    nombre: "",
-    apellido: "",
-    email: "",
-    telefono: "",
-    published: false
-  };
-
-  const [currentClient, setCurrentClient] = useState(initialClientState);
+ 
+  const [currentClient, setCurrentClient] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
   const [searchName, setSearchName] = useState("");
-  const [currentDireccion, setCurrentDireccion] = useState("");
-
+ 
   const clients = useSelector(state => state.client);
-
   const direccions = useSelector(state => state.direccion[0]);
 
   const dispatch = useDispatch();
-
   
   const onChangeSearchName = e => {
     const searchName = e.target.value;
     setSearchName(searchName);
-  };
+  }
+
   const getDireccion = useCallback((id) => { 
     dispatch(findDireccionsByClienteId( {id} ))
     console.log(`currentClient.id = ${id}`)
   }, [dispatch])
 
   const initFetch = useCallback(() => { 
-    dispatch(retrieveClients());    
+    dispatch(retrieveClients());  
+    dispatch(retrieveDireccions( ))  
   }, [dispatch])
 
   useEffect(() => {
     initFetch()
   }, [initFetch])
 
-  const setDireccion = () => {
-    const { id, provincia, ciudad, calle, numero, zipcode } = direccions;
-    const data = {
-      id: id,
-      provincia: provincia,
-      ciudad: ciudad,
-      calle: calle,
-      numero: numero,
-      zipcode: zipcode,
-    };
-    setCurrentDireccion({ 
-      id: data.id,
-      provincia: data.provincia,
-      ciudad: data.ciudad,
-      calle: data.calle,
-      numero: data.numero,
-      zipcode: data.zipcode,
-    });
-  }
-
   const refreshData = () => {
     setCurrentClient(null);
     setCurrentIndex(-1);
   };
   
-   
-  
   const setActiveClient = (client, index) => {
     setCurrentClient(client);
     setCurrentIndex(index);
-    setDireccion();
     getDireccion(client.id)
   };
 
@@ -97,8 +65,7 @@ const ClientsList = () => {
             placeholder="Buscar por nombre"
             value={searchName}
             onChange={onChangeSearchName}
-          />
-         
+          />         
         </div>
       </div>
 
@@ -118,7 +85,6 @@ const ClientsList = () => {
             ))}
         </ul>
      
-
         <button
           className="m-3 btn btn-sm btn-danger"
           onClick={removeAllClients}
@@ -127,7 +93,7 @@ const ClientsList = () => {
         </button>
       </div>
       <div className="col-md-6">
-        <div className="col-md-4">
+        <div >
           {currentClient ? (
             <div>
               <div class="p-4 shadow-4 rounded-3">
@@ -160,12 +126,6 @@ const ClientsList = () => {
                 </label>{" "}
                 {currentClient.telefono}
               </div>
-              <div>
-                <label>
-                  <strong>Status:</strong>
-                </label>{" "}
-                {currentClient.published ? "Published" : "Pending"}
-              </div>
               <Link
                 to={"/client/"  + currentClient.id}
                 className="m-1 btn btn-sm btn-warning">
@@ -175,12 +135,12 @@ const ClientsList = () => {
           ) : (
             <div>
               <br />
-              <p>Please click on a Client...</p> 
+              <p>Seleccione el cliente...</p> 
             </div>
           )}
         </div>
 
-        <div className="col-md-8">
+        <div className="col-md-6">
           {currentClient ? (
             <div>
               <div class="p-4 shadow-4 rounded-3">
@@ -192,47 +152,44 @@ const ClientsList = () => {
                 <label>
                   <strong>Provincia:</strong>
                 </label>{" "}
-                {currentDireccion.provincia}
+                {direccions.provincia}
                 
               </div>
               <div>
                 <label>
                   <strong>Ciudad:</strong>
                 </label>{" "}
-                {currentDireccion.ciudad}
+                {direccions.ciudad}
               </div>
               <div>
                 <label>
                   <strong>Calle:</strong>
                 </label>{" "}
-                {currentDireccion.calle}
+                {direccions.calle}
               </div>
               <div>
                 <label>
                   <strong>Numero:</strong>
                 </label>{" "}
-                {currentDireccion.numero}
+                {direccions.numero}
               </div>
               <div>
                 <label>
                   <strong>Zipcode:</strong>
                 </label>{" "}
-                {currentDireccion.zipcode}
+                {direccions.zipcode}
               </div>
 
 
               <Link
-                to={"/direccion/" + currentDireccion.id}
+                to={"/direccion/" + direccions.id}
                 className="m-1 btn btn-sm btn-warning"
               >
                 Edit
               </Link>
             </div>
-          ) : (
-            <div>
-              <br />
-              <p>Please click on a Client...</p>
-            </div>
+          ) : ( <div></div>
+
           )}
         </div>
       </div>
