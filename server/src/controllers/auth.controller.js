@@ -52,7 +52,7 @@ exports.signup = (req, res) => {
         });
       } else {
         // user role = 1
-        user.setRoles([1]).then(() => {
+        user.setRoles([3]).then(() => {
           res.send({ message: "Usuario registrado con éxito!" });
         });
       }
