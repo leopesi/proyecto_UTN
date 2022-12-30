@@ -1,6 +1,7 @@
-# Proyecto final del curso Programador Web Avanzado da UTN - (Universidad Tecnológica Nacional - Buenos Aires)
 
-[![Ver la documentación](https://run.pstmn.io/button.svg)](https://www.postman.com/restless-water-10959/workspace/df598f0c-36bb-4178-9a08-3c2420741c64/api/d1301b31-098b-4651-8d18-ee78cb941df8)
+<h1 align="center"> Proyecto final del curso Programador Web Avanzado da UTN - (Universidad Tecnológica Nacional - Buenos Aires) </h1>
+
+
 
 # Empezando 
 
@@ -48,6 +49,8 @@ Ahora, para iniciar la aplicación, escriba:
 ```shell
 npm start
 ```
+### Pueba de Rutas
+[![Ver la documentación](https://run.pstmn.io/button.svg)](https://www.postman.com/restless-water-10959/workspace/df598f0c-36bb-4178-9a08-3c2420741c64/api/d1301b31-098b-4651-8d18-ee78cb941df8)
 
 ### Start Front-end React application
 
@@ -59,10 +62,16 @@ Ahora, para iniciar la aplicación, escriba:
 ```shell
 npm start
 ```
+## 
+<h2 align="center"> Voilà! </h2>
 
-_____________________________________________
+Acceda a la ruta http://localhost:8082/register en su navegador, regístrese, luego inicie sesión y sea feliz.
+
+![Tela Register](https://user-images.githubusercontent.com/52714788/210097834-441dd9dd-f153-4eb1-b845-22955e547cc7.png)
 
 
+## 
+<h2 align="center"> Diagramas de Flujo </h2>
 
 <img src="https://user-images.githubusercontent.com/52714788/209237944-77d0b851-703a-4ad1-9bbb-73b5d5f59764.JPG">
 
