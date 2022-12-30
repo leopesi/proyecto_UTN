@@ -32,6 +32,8 @@ Todo lo que necesitas hacer es clonar este repositorio:
 ```shell
 git clone https://github.com/leopesi/proyecto_UTN.git
 ```
+## Ajustes
+Busque el archivo .env en la raíz de /server y complételo con la información de creación de la base de datos (DB_DATABASE, DB_USER y DB_PASS)
 
 ## Running
 La aplicación tiene muy pocas dependencias, por lo que probablemente sea muy fácil de entender cuando escanea el código, pero hay al menos algunos pasos que debe conocer.
