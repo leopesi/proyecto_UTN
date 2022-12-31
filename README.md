@@ -4,6 +4,45 @@
 
 
 # Empezando 
+Estas instrucciones le proporcionarán una copia del proyecto en funcionamiento en su máquina local para fines de desarrollo y prueba.
+
+## Prerequisites
+
+### Server
+<pre>
+"dependencies": { 
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "env-cmd": "^10.1.0",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.25.2"
+  },
+  </pre>
+  ### Client
+  <pre>
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "axios": "^1.1.3",
+    "bootstrap": "^5.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-redux": "^8.0.1",
+    "react-router-dom": "^6.4.3",
+    "react-scripts": "5.0.1",
+    "react-validation": "^3.0.7",
+    "redux": "^4.2.0",
+    "redux-thunk": "^2.4.2",
+    "validator": "^13.7.0",
+    "web-vitals": "^2.1.4"
+  },
+  </pre>
+  
 
 ## Creación de una base de datos de muestra
 
@@ -92,3 +131,11 @@ Acceda a la ruta http://localhost:8082/register en su navegador, regístrese, lu
 <img src="https://user-images.githubusercontent.com/52714788/209238580-ce868e13-8088-457d-8165-2c5dc781b44b.JPG">
 
 <img src="https://user-images.githubusercontent.com/52714788/209238654-30f8a99f-131f-4eb3-b0d1-f3b4a792c229.JPG">
+
+## Autor
+Leonardo Pereira - [leopesi](https://github.com/leopesi) :+1: <br>
+See also the list of contributors who participated in this project.
+
+
+## License
+This project is licensed under the MIT License.
