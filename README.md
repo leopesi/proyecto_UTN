@@ -108,11 +108,15 @@ Acceda a la ruta http://localhost:8082/register en su navegador, regístrese o i
 ```shell
 user: guest 
 password: 123456
+
+Authorities: ROLE_ADMIN
 ``` 
 o
 ```shell
 user: guest2
 password: 123456
+
+Authorities: ROLE_USER
 ``` 
  luego inicie sesión y sea feliz.
 
