@@ -65,7 +65,18 @@ npm start
 ## 
 <h2 align="center"> Voilà! </h2>
 
-Acceda a la ruta http://localhost:8082/register en su navegador, regístrese, luego inicie sesión y sea feliz.
+Acceda a la ruta http://localhost:8082/register en su navegador, regístrese o inicie la sesión com:
+```shell
+user: guest 
+password: 123456
+``` 
+o
+```shell
+user: guest2
+password: 123456
+``` 
+ luego inicie sesión y sea feliz.
+
 
 ![Tela Register](https://user-images.githubusercontent.com/52714788/210097834-441dd9dd-f153-4eb1-b845-22955e547cc7.png)
 
