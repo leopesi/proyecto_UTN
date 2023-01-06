@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 require('dotenv').config()
+var bcrypt = require("bcrypt");
 
 //Credenciais
 const DB_DATABASE = process.env.DB_DATABASE
@@ -18,7 +19,91 @@ sequelize.authenticate()
     console.log('error de conexión!');
 })
 
-sequelize.sync({force: true}).then(() => {console.log('Drop and Resync Db'); initial();});
+sequelize.sync({force: true}).then(() => {
+  Role.bulkCreate([
+    {
+      "id" : 1,
+      "name" : "user"
+    },
+    {
+      "id" : 2,
+      "name" : "moderator"
+    },
+    {
+      "id" : 3,
+      "name" : "admin"
+    }
+  ]);
+  User.create(
+    {
+      "nombre": "guest",
+      "apellido": "silva",
+      "email": "guest@guest.com",
+      "password": bcrypt.hashSync("123456", 8),
+  }
+  ).then(user => {
+    user.setRoles([3])
+  });
+
+  User.create(
+    {
+      "nombre": "guest2",
+      "apellido": "peres",
+      "email": "peres@guest.com",
+      "password": bcrypt.hashSync("123456", 8),
+  }
+  ).then(user => {
+    user.setRoles([1])
+  });
+
+  Cliente.bulkCreate([
+    {
+      "nombre": "Carl",
+      "apellido": "Sagan",
+      "email": "carlsagan34@viking.com",
+      "telefono": "9542687521"
+  },
+  {
+    "nombre": "Murphy",
+    "apellido": "Cooper",
+    "email": "MurphysCooper@lazaro.com",
+    "telefono": "9542687521"
+  },
+  {
+    "nombre": "Ayrton",
+    "apellido": "Senna",
+    "email": "ayrtonsenna@turner.com",
+    "telefono": "9542687521"
+  }
+  ]
+)
+
+  Direccion.bulkCreate([
+    {
+      "provincia": "Minas Gerais",
+      "ciudad": "Araguari",
+      "calle": "Dinorah Pacca",
+      "numero": "355",
+      "zipcode": "38442052",
+      "clienteId": "1"
+  },
+  {
+    "provincia": "Buenos Aires",
+    "ciudad": "Buenos Aires",
+    "calle": "Gurriti",
+    "numero": "355",
+    "zipcode": "38442052",
+    "clienteId": "2"
+},
+{
+  "provincia": "Minas Gerais",
+  "ciudad": "Uberlândia",
+  "calle": "Olegário Maciel",
+  "numero": "1001",
+  "zipcode": "38442052",
+  "clienteId": "3"
+}])
+});
 
 const db = {};
 
@@ -29,6 +114,11 @@ db.user = require("../models/usuario.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.cliente = require('../models/cliente.model')(sequelize, Sequelize);
 db.direccion = require('../models/direccion.model')(sequelize, Sequelize)
+
+const Role = db.role;
+const Cliente = db.cliente;
+const Direccion = db.direccion;
+const User = db.user;
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",
@@ -46,26 +136,6 @@ db.direccion.belongsTo(db.cliente, {
   as: "cliente",
 });
 
-db.ROLES = ["user", "admin", "moderator"];
-
-const Role = db.role;
-
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user"
-  });
- 
-  Role.create({
-    id: 2,
-    name: "moderator"
-  });
- 
-  Role.create({
-    id: 3,
-    name: "admin"
-  });
-}
-
+db.ROLES = ["user",  "moderator","admin",];
 
 module.exports = db;
