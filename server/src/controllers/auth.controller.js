@@ -1,6 +1,6 @@
 require('dotenv').config()
 const db = require("../db/db");
-const SECRET = process.env.SECRET;
+const SECRET = process.env.SECRET || 123456789;
 const User = db.user;
 const Role = db.role;
 

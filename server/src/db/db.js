@@ -1,14 +1,14 @@
 const Sequelize = require('sequelize')
 require('dotenv').config()
 var bcrypt = require("bcrypt");
+const { DB_DATABASE, DB_USER, DB_PASS, DB_HOST, DB_PORT} = require('../config.js')
 
 //Credenciais
-const DB_DATABASE = process.env.DB_DATABASE
-const DB_USER = process.env.DB_USER
-const DB_PASS = process.env.DB_PASS
+
 
 const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASS, {
-    host: 'localhost',
+    host: DB_HOST,
+    //port: DB_PORT,
     dialect: 'mysql'
 });
 
