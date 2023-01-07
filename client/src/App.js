@@ -58,7 +58,7 @@ const App = () => {
     <header >
       <nav class="navbar navbar-expand navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="">
               <img
                 src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
                 class="me-2"
