@@ -1,7 +1,7 @@
 
 <h1 align="center"> Proyecto final del curso Programador Web Avanzado da UTN - (Universidad Tecnológica Nacional - Buenos Aires) </h1>
 
-https://leopesi.github.io/login
+https://leopesi.github.io/proyecto_UTN/
 
 
 # Empezando 
@@ -119,7 +119,7 @@ password: 123456
 
 Authorities: ROLE_USER
 ``` 
-Si querés acceder a la aplicación en ejecución - https://leopesi.github.io/login
+Si querés acceder a la aplicación en ejecución - https://leopesi.github.io/proyecto_UTN/
 
 Luego inicie sesión y sea feliz! ;)
 
