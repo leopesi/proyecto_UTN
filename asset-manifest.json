@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/proyecto_UTN/static/css/main.f3167bca.css",
-    "main.js": "/proyecto_UTN/static/js/main.352ef021.js",
-    "index.html": "/proyecto_UTN/index.html",
-    "main.f3167bca.css.map": "/proyecto_UTN/static/css/main.f3167bca.css.map",
-    "main.352ef021.js.map": "/proyecto_UTN/static/js/main.352ef021.js.map"
+    "main.css": "https://leopesi.github.io/proyecto_UTN/static/css/main.f3167bca.css",
+    "main.js": "https://leopesi.github.io/proyecto_UTN/static/js/main.5dae9e65.js",
+    "index.html": "https://leopesi.github.io/proyecto_UTN/index.html",
+    "main.f3167bca.css.map": "https://leopesi.github.io/proyecto_UTN/static/css/main.f3167bca.css.map",
+    "main.5dae9e65.js.map": "https://leopesi.github.io/proyecto_UTN/static/js/main.5dae9e65.js.map"
   },
   "entrypoints": [
     "static/css/main.f3167bca.css",
-    "static/js/main.352ef021.js"
+    "static/js/main.5dae9e65.js"
   ]
 }
