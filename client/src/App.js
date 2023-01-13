@@ -58,7 +58,8 @@ const App = () => {
     <header >
       <nav class="navbar navbar-expand navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="">
+          <div>
+            <Link to={"/"} rel="icon" class="navbar-brand" href="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp">
               <img
                 src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
                 class="me-2"
@@ -66,11 +67,12 @@ const App = () => {
                 alt="MDB Logo"
                 loading="lazy"
               />
-              
+              </Link>
               <small>
                 <Link to={"/"} rel="icon"  href="%PUBLIC_URL%/code-128.png"  className="navbar-brand mt-2 mt-lg-0">Proyecto UTN</Link>
               </small>
-            </a>
+          </div>
+            
 
             
             <div className="navbar-nav mr-auto">
@@ -127,9 +129,9 @@ const App = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <a href="/login" className="nav-link" onClick={logOut}>
+                  <Link to={"/login"} className="nav-link" onClick={logOut}>
                     LogOut
-                  </a>
+                  </Link>
                 </li>
               </div>
             ) : (

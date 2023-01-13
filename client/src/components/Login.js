@@ -10,7 +10,7 @@ For the application state, we use Redux connect() function with mapStateToProps:
 
 import React, { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate  } from 'react-router-dom';
+import { Navigate  } from 'react-router-dom';
 
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -29,7 +29,7 @@ const required = (value) => {
 };
 
 const Login = (props) => {
-  let navigate = useNavigate();
+  //let navigate = useNavigate();
 
   const form = useRef();
   const checkBtn = useRef();
@@ -60,7 +60,7 @@ const Login = (props) => {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(nombre, password))
         .then(() => {
-          navigate("/profile");
+          //navigate("/home");
           window.location.reload();
         })
         .catch(() => {
@@ -72,7 +72,7 @@ const Login = (props) => {
   };
 
   if (isLoggedIn) {
-    return <Navigate to="/profile" />;
+    return <Navigate to="/" />;
   }
 
   return (

@@ -1,5 +1,5 @@
 {
-  "homepage": "https://leopesi.github.io/proyecto_UTN/",
+  "homepage": "http://proyecto-utn.s3-website-sa-east-1.amazonaws.com/proyecto_UTN/",
   "name": "client",
   "version": "0.1.1",
   "private": true,

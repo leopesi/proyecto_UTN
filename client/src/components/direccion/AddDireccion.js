@@ -22,7 +22,7 @@ const AddDireccion = () => {
 
   const navigateTo = useCallback(() => { 
     navigate("/client")
-  }, [dispatch])
+  }, [navigate]);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
