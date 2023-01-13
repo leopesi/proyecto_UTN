@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/proyecto_UTN/static/css/main.f3167bca.css",
-    "main.js": "/proyecto_UTN/static/js/main.3a9a33e6.js",
+    "main.js": "/proyecto_UTN/static/js/main.69d6a74a.js",
     "index.html": "/proyecto_UTN/index.html",
     "main.f3167bca.css.map": "/proyecto_UTN/static/css/main.f3167bca.css.map",
-    "main.3a9a33e6.js.map": "/proyecto_UTN/static/js/main.3a9a33e6.js.map"
+    "main.69d6a74a.js.map": "/proyecto_UTN/static/js/main.69d6a74a.js.map"
   },
   "entrypoints": [
     "static/css/main.f3167bca.css",
-    "static/js/main.3a9a33e6.js"
+    "static/js/main.69d6a74a.js"
   ]
 }
