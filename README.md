@@ -15,11 +15,12 @@ Estas instrucciones le proporcionarán una copia del proyecto en funcionamiento 
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "env-cmd": "^10.1.0",
     "express": "^4.18.2",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.25.2"
+    "sequelize": "^6.25.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.20"
   },
   </pre>
   ### Client
@@ -40,7 +41,8 @@ Estas instrucciones le proporcionarán una copia del proyecto en funcionamiento 
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2",
     "validator": "^13.7.0",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "redux-devtools-extension": "^2.13.9"
   },
   </pre>
   
