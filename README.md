@@ -1,7 +1,12 @@
 
-<h1 align="center"> Proyecto final del curso Programador Web Avanzado da UTN - (Universidad Tecnológica Nacional - Buenos Aires) </h1>
+<h1 align="center"> Proyecto final del curso Programador Web Avanzado da UTN - (Universidad Tecnológica Nacional - Buenos Aires) </h1> 
 
-https://leopesi.github.io/proyecto_UTN/
+
+![Skills](https://skills.thijs.gg/icons?i=nodejs,react,mysql,git,html,css,&theme=light)
+
+:arrow_forward:  https://leopesi.github.io/proyecto_UTN/
+
+:arrow_forward:  https://proyecto-utn.s3.sa-east-1.amazonaws.com/
 
 
 # Empezando 
@@ -126,9 +131,14 @@ Si querés acceder a la aplicación en ejecución - https://leopesi.github.io/pr
 Luego inicie sesión y sea feliz! ;)
 
 
-![Tela Register](https://user-images.githubusercontent.com/52714788/210097834-441dd9dd-f153-4eb1-b845-22955e547cc7.png)
+[![Tela register] (http://www.w3.org/2000/svg)](https://user-images.githubusercontent.com/52714788/210097834-441dd9dd-f153-4eb1-b845-22955e547cc7.png)
+
+  
+  
 
 
+
+  :desktop_computer:
 ## 
 <h2 align="center"> Diagramas de Flujo </h2>
 
@@ -159,3 +169,9 @@ See also the list of contributors who participated in this project.
 
 ## License
 This project is licensed under the MIT License.
+
+<hr>
+
+<div align="center">
+<img src="https://raw.githubusercontent.com/leopesi/proyecto_UTN/main/client/public/image/Logo%20leopesi%20Black.png" width="350" title="LinkedIn" />
+</div>
