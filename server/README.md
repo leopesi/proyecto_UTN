@@ -31,6 +31,8 @@ En la sección "dependencias", se especifican las librerías externas que el pro
   }
 }
 ```
+<hr>
+
 ### :open_file_folder: server/
 #### :file_cabinet: <i>app.js</i>
 >Este script está configurando un servidor Express.js e importando varios módulos para manejar diferentes funcionalidades.
@@ -65,6 +67,136 @@ app.listen(PORT, ()=> {
     console.log(`Server funcionando en el puerto ${PORT}!`)
 })
 ```
+<hr>
 
-## :open_file_folder: server/
-### :file_cabinet: <i>app.js</i>
+### :open_file_folder: server/src
+#### :file_cabinet: <i>config.js</i>
+>Este código está exportando un objeto con varias propiedades que se establecen con variables de entorno o valores predeterminados. Las propiedades incluyen información de conexión de base de datos, como el puerto, el host, el nombre de usuario y la contraseña, así como el nombre de la base de datos. También se establece una propiedad llamada "SECRET" que se establece con una variable de entorno o un valor predeterminado. Todo el objeto se congela para evitar cualquier cambio accidental en el futuro.
+```javascript
+module.exports = Object.freeze({
+  DB_PORT: process.env.DB_PORT || 7986,
+  DB_HOST: process.env.DB_HOST || "localhost",
+  DB_USER: process.env.DB_USER || "root",
+  DB_PASS: process.env.DB_PASS || "password",
+  DB_DATABASE:  process.env.DB_DATABASE || "UTN",
+  SECRET: process.env.SECRET || jDdsalkjjU32&FE14DF
+
+}) 
+```
+<hr>
+
+### :open_file_folder: server/src/controllers
+#### :file_cabinet: <i>auth.controller.js</i>
+>Este código es un ejemplo de un controlador de usuario en Node.js que utiliza la biblioteca Sequelize para interactuar con una base de datos. Se utilizan diferentes módulos, como dotenv, jsonwebtoken y bcrypt, para manejar la autenticación y encriptación de contraseñas. El controlador tiene dos funciones principales: signup y signin. La función signup se utiliza para registrar un nuevo usuario en la base de datos, mientras que la función signin se utiliza para iniciar sesión en la aplicación. Ambos controladores manejan errores y devuelven respuestas HTTP apropiadas en caso de éxito o error.
+
+```javascript
+require('dotenv').config()
+const db = require("../db/db");
+const SECRET = process.env.SECRET || 123456789;
+const User = db.user;
+const Role = db.role;
+
+const Op = db.Sequelize.Op;
+
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcrypt");
+
+exports.signup = (req, res) => {
+  // Save User to Database
+  const {nombre, apellido, email, password} = req.body
+  if(!nombre) {
+    return res.status(422).json({message: 'Se requiere el nombre!'})
+  }
+  if(!apellido) {
+    return res.status(422).json({message: 'Se requiere el apellido!'})
+  }
+  if(!email) {
+    return res.status(422).json({message: 'Se requiere el email'})
+  }
+  if(!password) {
+    return res.status(422).json({message: 'La contraseña es obliatoria!'})
+  }
+  // Create Password
+  const salt = 8
+  const passwordHash = bcrypt.hashSync(password, salt)
+
+  // Create User
+  const newUser = {
+      nombre,
+      apellido,
+      email,
+      password: passwordHash,
+  }
+
+  User.create(newUser)
+    .then(user => {
+      if (req.body.roles) {
+        Role.findAll({
+          where: {
+            name: {
+              [Op.or]: req.body.roles
+            }
+          }
+        }).then(roles => {
+          user.setRoles(roles).then(() => {
+            res.send({ message: "Usuario registrado con éxito!" });
+          });
+        });
+      } else {
+        // user role = 1
+        user.setRoles([3]).then(() => {
+          res.send({ message: "Usuario registrado con éxito!" });
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+
+exports.signin = (req, res) => {
+  User.findOne({
+    where: {
+      nombre: req.body.nombre
+    }
+  })
+    .then(user => {
+      if (!user) {
+        return res.status(404).send({ message: "User Not found." });
+      }
+
+      var passwordIsValid = bcrypt.compareSync(
+        req.body.password,
+        user.password
+      );
+
+      if (!passwordIsValid) {
+        return res.status(401).send({
+          accessToken: null,
+          message: "Invalid Password!"
+        });
+      }
+
+      var token = jwt.sign({ id: user.id }, SECRET, {
+        expiresIn: 86400 // 24 hours
+      });
+
+      var authorities = [];
+      user.getRoles().then(roles => {
+        for (let i = 0; i < roles.length; i++) {
+          authorities.push("ROLE_" + roles[i].name.toUpperCase());
+        }
+        res.status(200).send({
+          id: user.id,
+          nombre: user.nombre,
+          email: user.email,
+          roles: authorities,
+          accessToken: token
+        });
+      });
+    })
+    .catch(err => {
+      res.status(500).send({ message: err.message });
+    });
+};
+```
