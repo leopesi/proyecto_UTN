@@ -469,6 +469,262 @@ exports.moderatorBoard = (req, res) => {
 
 <hr>
 
+### :open_file_folder: server/src/db
+#### :file_cabinet: <i>db.js</i>
+>Este es un archivo de configuración para una aplicación y utiliza la librería Sequelize para conectarse a una base de datos MySQL. El código establece una conexión a la base de datos y luego sincroniza los modelos de usuario, rol, cliente y dirección con la base de datos. También crea algunos registros de prueba para cada uno de los modelos.
+
+```javascript
+const Sequelize = require('sequelize')
+require('dotenv').config()
+var bcrypt = require("bcrypt");
+const { DB_DATABASE, DB_USER, DB_PASS, DB_HOST, DB_PORT} = require('../config.js')
+
+const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASS, {
+    host: DB_HOST,
+    //port: DB_PORT,
+    dialect: 'mysql'
+});
+
+sequelize.authenticate()
+.then(function(){
+    console.log('¡Conexión con db exitosa!');
+}).catch(function(){
+    console.log('error de conexión!');
+})
+
+sequelize.sync({force: true}).then(() => {
+  Role.bulkCreate([
+    {
+      "id" : 1,
+      "name" : "user"
+    },
+    {
+      "id" : 2,
+      "name" : "moderator"
+    },
+    {
+      "id" : 3,
+      "name" : "admin"
+    }
+  ]);
+  User.create(
+    {
+      "nombre": "guest",
+      "apellido": "silva",
+      "email": "guest@guest.com",
+      "password": bcrypt.hashSync("123456", 8),
+  }
+  ).then(user => {
+    user.setRoles([3])
+  });
+
+  User.create(
+    {
+      "nombre": "guest2",
+      "apellido": "peres",
+      "email": "peres@guest.com",
+      "password": bcrypt.hashSync("123456", 8),
+  }
+  ).then(user => {
+    user.setRoles([1])
+  });
+
+  Cliente.bulkCreate([
+    {
+      "nombre": "Carl",
+      "apellido": "Sagan",
+      "email": "carlsagan34@viking.com",
+      "telefono": "9542687521"
+  },
+  {
+    "nombre": "Murphy",
+    "apellido": "Cooper",
+    "email": "MurphysCooper@lazaro.com",
+    "telefono": "9542687521"
+  },
+  {
+    "nombre": "Ayrton",
+    "apellido": "Senna",
+    "email": "ayrtonsenna@turner.com",
+    "telefono": "9542687521"
+  }
+  ]
+)
+
+  Direccion.bulkCreate([
+    {
+      "provincia": "Minas Gerais",
+      "ciudad": "Araguari",
+      "calle": "Dinorah Pacca",
+      "numero": "355",
+      "zipcode": "38442052",
+      "clienteId": "1"
+  },
+  {
+    "provincia": "Buenos Aires",
+    "ciudad": "Buenos Aires",
+    "calle": "Gurriti",
+    "numero": "355",
+    "zipcode": "38442052",
+    "clienteId": "2"
+},
+{
+  "provincia": "Minas Gerais",
+  "ciudad": "Uberlândia",
+  "calle": "Olegário Maciel",
+  "numero": "1001",
+  "zipcode": "38442052",
+  "clienteId": "3"
+}])
+});
+
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.user = require("../models/usuario.model.js")(sequelize, Sequelize);
+db.role = require("../models/role.model.js")(sequelize, Sequelize);
+db.cliente = require('../models/cliente.model')(sequelize, Sequelize);
+db.direccion = require('../models/direccion.model')(sequelize, Sequelize)
+
+const Role = db.role;
+const Cliente = db.cliente;
+const Direccion = db.direccion;
+const User = db.user;
+
+db.role.belongsToMany(db.user, {
+  through: "user_roles",
+  foreignKey: "roleId",
+  otherKey: "userId"
+});
+db.user.belongsToMany(db.role, {
+  through: "user_roles",
+  foreignKey: "userId",
+  otherKey: "roleId"
+});
+db.cliente.hasMany(db.direccion, { as: "direccion" });
+db.direccion.belongsTo(db.cliente, {
+  foreignKey: "clienteId",
+  as: "cliente",
+});
+
+db.ROLES = ["user",  "moderator","admin",];
+
+module.exports = db;
+```
+
+<hr>
+
+### :open_file_folder: server/src/middleware
+#### :file_cabinet: <i>authJwt.js</i>
+>Archivo de autenticación basado en JSON Web Token (JWT), utiliza la librería dotenv para configurar una variable de entorno llamada SECRET, que se usa para firmar los tokens JWT. También importa la base de datos y el modelo de usuario.
+>
+>Existem 4 funciones:
+>
+>* __verifyToken__: Comprobar si existe el token y si es válido;
+>* __isAdmin__: Verifica si el usuario tiene el rol de administrador;
+>* __isModerator__: Verifica si el usuario tiene el rol de moderador;
+>* __isModeratorOrAdmin__: Verifica si el usuario tiene el rol de administrador o moderador.
+>
+>Essas funciones puedem se puedem utilizar para proteger las rutas de la aplicación, de tal forma que sólo puedan acceder a ellos los usuarios con los roles adecuados.
+>
+
+```javascript
+require('dotenv').config()
+const jwt = require("jsonwebtoken");
+const SECRET = process.env.SECRET;
+const db = require("../db/db");
+const User = db.user;
+
+verifyToken = (req, res, next) => {
+  let token = req.headers["x-access-token"];
+
+  if (!token) {
+    return res.status(403).send({
+      message: "Token no encontrado!"
+    });
+  }
+
+  jwt.verify(token, SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({
+        message: "Sin autorización!"
+      });
+    }
+    req.userId = decoded.id;
+    next();
+  });
+};
+
+isAdmin = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "admin") {
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: "Acceso restringido a administradores!"
+      });
+      return;
+    });
+  });
+};
+
+isModerator = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "moderator") {
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: "Acceso restringido a moderadores!"
+      });
+    });
+  });
+};
+
+isModeratorOrAdmin = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name === "moderator") {
+          next();
+          return;
+        }
+
+        if (roles[i].name === "admin") {
+          next();
+          return;
+        }
+      }
+
+      res.status(403).send({
+        message: "Acceso restringido a administradores ou moderadores!"
+      });
+    });
+  });
+};
+
+const authJwt = {
+  verifyToken: verifyToken,
+  isAdmin: isAdmin,
+  isModerator: isModerator,
+  isModeratorOrAdmin: isModeratorOrAdmin
+};
+module.exports = authJwt;
+```
+
+<hr>
+
 ### :open_file_folder: server/src/controllers
 #### :file_cabinet: <i>direccion.controller.js</i>
 >
