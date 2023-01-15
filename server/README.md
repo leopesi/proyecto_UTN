@@ -311,3 +311,178 @@ async function deleteById(req, res) {
 
 module.exports = postCliente;
 ```
+<hr>
+
+### :open_file_folder: server/src/controllers
+#### :file_cabinet: <i>direccion.controller.js</i>
+>Este código es un archivo de controlador para una tabla de direcciones en una base de datos. Utiliza la librería '../db/db' para importar la configuración de la base de datos y el modelo de direcciones. Luego define varias funciones asíncronas, cada una correspondiente a una operación CRUD específica (crear, encontrar todos, encontrar por ID, actualizar y eliminar por ID, encontrar por ID de cliente). Cada función maneja la lógica necesaria para realizar la operación correspondiente (por ejemplo, validando si los campos requeridos están presentes en la solicitud, buscando o actualizando un registro en la base de datos, etc.) y establece una respuesta apropiada para el cliente (por ejemplo, un mensaje de éxito o un error). Finalmente, el archivo exporta un objeto que contiene todas estas funciones para que puedan ser utilizadas en otra parte de la aplicación.
+
+```javascript
+const db = require('../db/db')
+const Direccion = db.direccion;
+
+var direccionController = {
+    create: create,
+    findAll: findAll,
+    findById: findById,
+    update: update,
+    deleteById: deleteById,
+    findByClienteId: findByClienteId,
+}
+
+async function create(req, res){
+    const {provincia, ciudad, calle, numero, zipcode} = req.body
+    console.log(`req.body ${provincia, ciudad, calle, numero, zipcode}`)
+    const clienteId = req.params.id
+    console.log(`clienteId ${clienteId}`)
+    if(!provincia) {
+        return res.status(422).json({message: "Se requiere la provincia!"})
+    }
+    if(!ciudad) {
+        return res.status(422).json({message: "Se requiere la ciudad!"})
+    }
+    if(!calle) {
+        return res.status(422).json({message: "se requiere la calle!"})
+    }
+    if(!numero) {
+        return res.status(422).json({message: "Se requiere el numero!"})
+    }
+    if(!zipcode) {
+        return res.status(422).json({message: "Se requiere el zipcode!"})
+    }
+    console.log(req.body)
+
+    const direccionReq = {
+        provincia,
+        ciudad,
+        calle,
+        numero,
+        zipcode,
+        clienteId,
+    }
+    console.log(direccionReq)
+    await Direccion.create(direccionReq).
+    then((data) => {
+        res.send(data)
+        res.status(201).json({msg: "Direccion criada com éxito!"})
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+async function findAll(req, res) {
+    await Direccion.findAll().
+    then((data) => {
+        res.send(data);
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+}
+
+async function findById(req, res) {
+    await Direccion.findByPk(req.params.id).
+    then((data) => {
+        res.send(data)
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+async function findByClienteId(req, res) {
+    await Direccion.findOne({ where: { clienteId: req.params.id } }).
+    then((data) => {
+        res.send(data)
+        console.log(`Direccion encontrado. ${data}`)
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+async function update(req, res) {
+    const {provincia, ciudad, calle, numero, zipcode} = req.body
+    var direccion = {
+        provincia,
+        ciudad,
+        calle,
+        numero,
+        zipcode
+    };
+
+    Direccion.update(direccion, { where: { id: req.params.id } }).
+        then((data) => {
+            res.status(204).json({
+                message: "Direccion actualizado exitosamente!",
+                tutorial: direccion
+                
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
+async function deleteById(req, res) {
+    Direccion.destroy({ where: { id: req.params.id } }).
+        then((data) => {
+            res.status(204).json({
+                message: "Direccion apagada exitosamente!",
+                tutorial: data
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+}
+
+module.exports = direccionController;
+
+```
+<hr>
+
+### :open_file_folder: server/src/controllers
+#### :file_cabinet: <i>role.controller.js</i>
+>Este código maneja diferentes tipos de acceso (público, usuario, administrador y moderador) para diferentes secciones de la aplicación. Utiliza la función exports para exportar cada una correspondiente a un tipo de acceso específico.
+
+```javascript
+exports.allAccess = (req, res) => {
+  res.status(200).send("Contenido público.");
+};
+
+exports.userBoard = (req, res) => {
+  res.status(200).send("Contenido del usuario.");
+};
+
+exports.adminBoard = (req, res) => {
+  res.status(200).send("Contenido del administrador.");
+};
+
+exports.moderatorBoard = (req, res) => {
+  res.status(200).send("Contenido del moderador.");
+};
+```
+
+<hr>
+
+### :open_file_folder: server/src/controllers
+#### :file_cabinet: <i>direccion.controller.js</i>
+>
+
+```javascript
+
+```
+
+<hr>
+
+### :open_file_folder: server/src/controllers
+#### :file_cabinet: <i>direccion.controller.js</i>
+>
+
+```javascript
+
+```
