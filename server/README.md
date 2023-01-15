@@ -200,3 +200,114 @@ exports.signin = (req, res) => {
     });
 };
 ```
+<hr>
+
+### :open_file_folder: server/src/controllers
+#### :file_cabinet: <i>cliente.controller.js</i>
+>Este código es un archivo de rutas de una aplicación web que maneja operaciones CRUD (crear, leer, actualizar y eliminar) para una tabla de clientes en una base de datos. Utiliza la librería '../db/db' para importar la configuración de la base de datos y el modelo de cliente. Luego define varias funciones asíncronas, cada una correspondiente a una operación CRUD específica (crear, encontrar todos, encontrar por ID, actualizar y eliminar por ID). Cada función maneja la lógica necesaria para realizar la operación correspondiente (por ejemplo, validando si los campos requeridos están presentes en la solicitud, buscando o actualizando un registro en la base de datos, etc.) y establece una respuesta apropiada para el cliente (por ejemplo, un mensaje de éxito o un error). Finalmente, el archivo exporta un objeto que contiene todas estas funciones para que puedan ser utilizadas en otra parte de la aplicación.
+
+```javascript
+const db = require('../db/db')
+const Cliente = db.cliente;
+
+var postCliente = {
+    create: create,
+    findAll: findAll,
+    findById: findById,
+    update: update,
+    deleteById: deleteById,
+}
+
+async function create(req, res){
+    const {nombre, apellido, email, telefono} = req.body
+    if(!nombre) {
+        return res.status(422).json({message: "Se requiere el nombre!"})
+    }
+    if(!apellido) {
+        return res.status(422).json({message: "Se requiere el apellido!"})
+    }
+    if(!email) {
+        return res.status(422).json({message: "se requiere el email!"})
+    }
+    if(!telefono) {
+        return res.status(422).json({message: "Se requiere el telefono!"})
+    }
+    console.log(req.body)
+
+    const clienteReq = {
+        nombre,
+        apellido,
+        email,
+        telefono
+    }
+    await Cliente.create(clienteReq).
+    then((result) => {
+        res.send({ id: result.id})
+        res.status(201).json({msg: "Cliente criado com éxito!"})
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+async function findAll(req, res) {
+    await Cliente.findAll().
+    then((data) => {
+        res.send(data);
+        console.log('Lista de clientes encontrada!')
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+
+}
+
+async function findById(req, res) {
+    await Cliente.findByPk(req.params.id).
+    then((data) => {
+        res.send(data)
+        console.log('Cliente encontrado.')
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+}
+
+async function update(req, res) {
+    const {nombre, apellido, email, telefono} = req.body
+    var cliente = {
+        nombre,
+        apellido,
+        email,
+        telefono
+    };
+
+    Cliente.update(cliente, { where: { id: req.params.id } }).
+        then((data) => {
+            res.status(204).json({
+                message: "Cliente actualizado exitosamente!",
+                tutorial: cliente
+                
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+
+async function deleteById(req, res) {
+    Cliente.destroy({ where: { id: req.params.id } }).
+        then((data) => {
+            res.status(204).json({
+                message: "Cliente apagado exitosamente!",
+                tutorial: data
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
+}
+
+module.exports = postCliente;
+```
