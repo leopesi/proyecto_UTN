@@ -725,18 +725,225 @@ module.exports = authJwt;
 
 <hr>
 
-### :open_file_folder: server/src/controllers
-#### :file_cabinet: <i>direccion.controller.js</i>
->
+### :open_file_folder: server/src/middleware
+#### :file_cabinet: <i>verifySignUp.js</i>
+>Módulo de verificación de registro de usuario. Utiliza la base de datos importada (db) para buscar si un nombre de usuario o correo electrónico ya existen en la tabla de usuarios. También verifica si los roles especificados en la solicitud existen en la lista de roles predefinidos. Si se encuentran duplicados o roles no válidos, se envía un mensaje de error al usuario.
 
 ```javascript
+const db = require("../db/db");
+const ROLES = db.ROLES;
+const User = db.user;
+
+checkDuplicateUsernameOrEmail = (req, res, next) => {
+  // Username
+  User.findOne({
+    where: {
+      nombre: req.body.nombre
+    }
+  }).then(user => {
+    if (user) {
+      res.status(400).send({
+        message: "¡Error! ¡El nombre de usuario ya está en uso!"
+      });
+      return;
+    }
+
+    // Email
+    User.findOne({
+      where: {
+        email: req.body.email
+      }
+    }).then(user => {
+      if (user) {
+        res.status(400).send({
+          message: "¡Error! ¡El email ya está en uso!"
+        });
+        return;
+      }
+
+      next();
+    });
+  });
+};
+
+checkRolesExisted = (req, res, next) => {
+  if (req.body.roles) {
+    for (let i = 0; i < req.body.roles.length; i++) {
+      if (!ROLES.includes(req.body.roles[i])) {
+        res.status(400).send({
+          message: "¡Error! El tipo de usuario no existe! = " + req.body.roles[i]
+        });
+        return;
+      }
+    }
+  }
+  
+  next();
+};
+
+const verifySignUp = {
+  checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
+  checkRolesExisted: checkRolesExisted
+};
+
+module.exports = verifySignUp;
+
 
 ```
 
 <hr>
 
-### :open_file_folder: server/src/controllers
+### :open_file_folder: server/src/middleware
 #### :file_cabinet: <i>direccion.controller.js</i>
+>Módulo que exporta otras dos funciones: 
+>* __authJwt__: Autenticación mediante JSON Web Token.
+>* __verifySignUp__: Módulo de verificación de registro de usuario, descrito anteriormente.
+
+
+```javascript
+const authJwt = require("./authJwt");
+const verifySignUp = require("./verifySignUp");
+
+module.exports = {
+  authJwt,
+  verifySignUp
+};
+```
+
+<hr>
+
+### :open_file_folder: server/src/models
+#### :file_cabinet: <i>cliente.model.js</i>
+>Definición de una tabla "Cliente" en una base de datos. Define varias columnas para la tabla, incluyendo "id", "nombre", "apellido", "email" y "telefono". 
+>La columna "id" es la clave principal y se autoincrementa, no se permite valores nulos. La columna "email" tiene una validación de email y el resto son de tipo string. Al final, se retorna el modelo Cliente.
+
+```javascript
+module.exports = (sequelize, Sequelize) => {
+    const Cliente = sequelize.define('cliente', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
+            primaryKey: true
+        },
+        nombre: {
+            type: Sequelize.STRING,
+        },
+        apellido: {
+            type: Sequelize.STRING,
+        },
+        email: {
+            type: Sequelize.STRING,
+            isEmail: true,
+        },
+        telefono: {
+            type: Sequelize.STRING,
+        },
+    });
+    return Cliente
+}
+
+```
+
+<hr>
+
+### :open_file_folder: server/src/models
+#### :file_cabinet: <i>direccion.model.js</i>
+>Definición de modelo de una tabla "Direccion" en una base de datos. Define varias columnas para la tabla, incluyendo "id", "provincia", "ciudad", "calle", "numero" y "zipcode". La columna "id" es la clave principal y se autoincrementa, no se permite valores nulos. La columna "numero" es un entero, el resto son de tipo string. Al final, se retorna el modelo Direccion.
+
+```javascript
+module.exports = (sequelize, Sequelize) => {
+    const Direccion = sequelize.define('direccion', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
+            primaryKey: true
+        },
+        provincia: {
+            type: Sequelize.STRING,
+        },
+        ciudad: {
+            type: Sequelize.STRING,
+        },
+        calle: {
+            type: Sequelize.STRING,
+        },
+        numero: {
+            type: Sequelize.INTEGER,
+        },
+        zipcode: {
+            type: Sequelize.STRING,
+        },
+    });
+    return Direccion
+}
+```
+
+<hr>
+
+### :open_file_folder: server/src/models
+#### :file_cabinet: <i>usuario.model.js</i>
+>Definición de modelo de una tabla "User" en una base de datos. Define varias columnas para la tabla, incluyendo "id", "nombre", "apellido", "email" y "password". La columna "id" es la clave principal y se autoincrementa, no se permite valores nulos en ninguna de las columnas. El email tiene una validación de email. Al final, se retorna el modelo User.
+
+```javascript
+module.exports = (sequelize, Sequelize) => {
+    const User = sequelize.define('user', {
+        id: {
+            type: Sequelize.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
+            primaryKey: true
+        },
+        nombre: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        apellido: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+        email: {
+            type: Sequelize.STRING,
+            allowNull: false,
+            isEmail: true,
+        },
+        password: {
+            type: Sequelize.STRING,
+            allowNull: false,
+        },
+    });
+    return User
+}
+```
+
+<hr>
+
+### :open_file_folder: server/src/models
+#### :file_cabinet: <i>role.model.js</i>
+>Definición de modelo de una tabla "Roles" en una base de datos. Define dos columnas para la tabla, incluyendo "id" y "name". La columna "id" es la clave primaria. Al final, se retorna el modelo Roles.
+
+```javascript
+module.exports = (sequelize, Sequelize) => {
+  const Role = sequelize.define("roles", {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true
+    },
+    name: {
+      type: Sequelize.STRING
+    }
+  });
+
+  return Role;
+};
+
+```
+
+<hr>
+
+### :open_file_folder: server/src/models
+#### :file_cabinet: <i>direccion.model.js</i>
 >
 
 ```javascript
