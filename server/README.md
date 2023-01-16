@@ -794,7 +794,7 @@ module.exports = verifySignUp;
 <hr>
 
 ### :open_file_folder: server/src/middleware
-#### :file_cabinet: <i>direccion.controller.js</i>
+#### :file_cabinet: <i>index.js</i>
 >Módulo que exporta otras dos funciones: 
 >* __authJwt__: Autenticación mediante JSON Web Token.
 >* __verifySignUp__: Módulo de verificación de registro de usuario, descrito anteriormente.
@@ -942,10 +942,105 @@ module.exports = (sequelize, Sequelize) => {
 
 <hr>
 
-### :open_file_folder: server/src/models
-#### :file_cabinet: <i>direccion.model.js</i>
->
+### :open_file_folder: server/src/routes
+#### :file_cabinet: <i>auth.routes.js</i>
+>Este código exporta una función que configura las rutas para una aplicación de express. Se establecen dos rutas, una para registrarse y otra para iniciar sesión. La ruta de registro utiliza middlewares (__verifySignUp.checkDuplicateUsernameOrEmail__, __verifySignUp.checkRolesExisted__) para verificar si el nombre de usuario o el correo electrónico ya existen y si los roles especificados son válidos. Luego, llama al __controller.signup__. La ruta de inicio de sesión solo llama al __controller.signin__. También se establece un  __header__ para el acceso desde diferentes origenes.
 
 ```javascript
+const { verifySignUp } = require("../middleware");
+const controller = require("../controllers/auth.controller");
 
+module.exports = function(app) {
+  app.use(function(req, res, next) {
+    res.header(
+      "Access-Control-Allow-Headers",
+      "x-access-token, Origin, Content-Type, Accept"
+    );
+    next();
+  });
+
+  app.post("/auth/signup",
+    [
+      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkRolesExisted
+    ],
+    controller.signup
+  );
+
+  app.post("/auth/signin", controller.signin);
+};
+```
+
+<hr>
+
+### :open_file_folder: server/src/routes
+#### :file_cabinet: <i>cliente.routes.js</i>
+>Este código exporta una función que configura las rutas para una aplicación de express para la gestión de clientes. Incluye rutas para __crear__, __leer__, __actualizar__ y __eliminar__ clientes. También establece un __header__ para el acceso desde diferentes origenes.
+
+```javascript
+const { authJwt } = require("../middleware");
+const clienteController = require('../controllers/cliente.controller');
+const roleController = require('../controllers/role.controller')
+
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
+      next();
+    });
+  
+    app.post("/cliente/", clienteController.create );
+    app.get("/cliente/", clienteController.findAll );
+    app.get("/cliente/:id", clienteController.findById );
+    app.put("/cliente/:id", clienteController.update  );
+    app.delete("/cliente/:id", clienteController.deleteById );
+  };
+```
+
+<hr>
+
+### :open_file_folder: server/src/routes
+#### :file_cabinet: <i>direccion.routes.js</i>
+>Este código exporta una función que configura las rutas para una aplicación de express para la gestión de direcciones. Incluye rutas para __crear__, __leer__, __actualizar__ y __eliminar__ direcciones. También establece un __header__ para el acceso desde diferentes origenes. Hay una ruta adicional para buscar direcciones por id de cliente.
+
+```javascript
+const { authJwt } = require("../middleware");
+const direccionController = require('../controllers/direccion.controller');
+
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
+      next();
+    });
+  
+    app.post("/direccion/:id", direccionController.create);
+    app.get("/direccion/", direccionController.findAll );
+    app.get("/direccion/:id", direccionController.findById );
+    app.get("/direccion/cliente/:id", direccionController.findByClienteId );
+    app.put("/direccion/:id", direccionController.update  );
+    app.delete("/direccion/:id", direccionController.deleteById );
+  };
+```
+
+<hr>
+
+### :open_file_folder: server/src/routes
+#### :file_cabinet: <i>role.js</i>
+>Este código exporta una función que configura las rutas para una aplicación de express para la gestión de roles. Incluye rutas para acceder a diferentes tableros según el rol del usuario autenticado. Utiliza el middleware __authJwt__ para verificar el token de acceso y asegurar que solo los usuarios con roles específicos pueden acceder a ciertas rutas, como moderatorBoard y adminBoard.
+
+```javascript
+const { authJwt } = require("../middleware");
+const roleController = require('../controllers/role.controller');
+
+
+module.exports = function(app) {
+    app.use(function(req, res, next) {
+        res.header("Access-Control-Allow-Headers", "x-access-token, Origin, Content-Type, Accept");
+      next();
+    });
+  
+    app.get("/role/all", roleController.allAccess);
+    app.get("/role/user", authJwt.verifyToken, roleController.userBoard);
+    app.get("/role/mod", [authJwt.verifyToken, authJwt.isModerator], roleController.moderatorBoard);
+    app.get("/role/admin", [authJwt.verifyToken, authJwt.isAdmin], roleController.adminBoard);
+  };
 ```
