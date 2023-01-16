@@ -6,7 +6,7 @@
 
 :arrow_forward:  https://leopesi.github.io/proyecto_UTN/
 
-:arrow_forward:  https://proyecto-utn.s3.sa-east-1.amazonaws.com/
+:arrow_forward:  https://proyecto-utn.s3.sa-east-1.amazonaws.com/index.html
 
 
 # Empezando 
@@ -130,15 +130,6 @@ Si querés acceder a la aplicación en ejecución - https://leopesi.github.io/pr
 
 Luego inicie sesión y sea feliz! ;)
 
-
-[![Tela register] (http://www.w3.org/2000/svg)](https://user-images.githubusercontent.com/52714788/210097834-441dd9dd-f153-4eb1-b845-22955e547cc7.png)
-
-  
-  
-
-
-
-  :desktop_computer:
 ## 
 <h2 align="center"> Diagramas de Flujo </h2>
 
