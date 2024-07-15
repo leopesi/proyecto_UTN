@@ -1,5 +1,5 @@
 
-<h1 align="center"> Proyecto final del curso Programador Web Avanzado da UTN - (Universidad Tecnológica Nacional - Buenos Aires) </h1> 
+<h1 align="center"> Proyecto final de extensión universitaria Programador Web Avanzado de la UTN - (Universidad Tecnológica Nacional - Buenos Aires) </h1>
 
 
 ![Skills](https://skills.thijs.gg/icons?i=nodejs,react,mysql,git,html,css,&theme=light)
